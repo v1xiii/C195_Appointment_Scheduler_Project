@@ -23,7 +23,7 @@
   </rowConstraints>
    <children>
       <Button fx:id="button_login" mnemonicParsing="false" onAction="#loginButtonHandler" prefWidth="100.0" text="Log In" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-      <Label style="-fx-border-style: solid; -fx-background-color: #ccd2db;" text="Scheduler Login" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+      <Label fx:id="label_login" style="-fx-border-style: solid; -fx-background-color: #ccd2db;" text="Scheduler Login" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -41,13 +41,13 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Username:">
+            <Label text="Username:" fx:id="label_username">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
             <TextField fx:id="input_username" GridPane.columnIndex="1" />
-            <Label text="Password:" GridPane.rowIndex="1">
+            <Label text="Password:" fx:id="label_password" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
