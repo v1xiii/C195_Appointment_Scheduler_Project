@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddCustomerController implements Initializable {
+public class EditCustomerController implements Initializable {
 
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -30,5 +30,10 @@ public class AddCustomerController implements Initializable {
     private void saveButtonHandler (ActionEvent event) throws IOException {
         //Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         //stage.close();
+    }
+
+    @FXML
+    private void deleteButtonHandler (ActionEvent event) throws IOException {
+
     }
 }

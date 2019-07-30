@@ -49,10 +49,10 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" prefWidth="200.0" text="Add Appointment" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" prefWidth="200.0" text="Weekly Calendar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" prefWidth="200.0" text="Edit Appointment" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" prefWidth="200.0" text="Monthly Calendar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <Button fx:id="button_add_appointment" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" prefWidth="200.0" text="Add Appointment" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="button_weekly_calendar" mnemonicParsing="false" onAction="#weeklyCalendarButtonHandler" prefWidth="200.0" text="Weekly Calendar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="button_edit_appointment" mnemonicParsing="false" onAction="#editAppointmentButtonHandler" prefWidth="200.0" text="Edit Appointment" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <Button fx:id="button_monthly_calendar" mnemonicParsing="false" onAction="#monthlyCalendarButtonHandler" prefWidth="200.0" text="Monthly Calendar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
          </children>
          <GridPane.margin>
             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
@@ -73,8 +73,8 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Label>
-            <Button mnemonicParsing="false" onAction="#addCustomerButtonHandler" prefWidth="200.0" text="Add Customer" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" prefWidth="200.0" text="Edit Customer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="button_add_customer" mnemonicParsing="false" onAction="#addCustomerButtonHandler" prefWidth="200.0" text="Add Customer" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="button_edit_customer" mnemonicParsing="false" onAction="#editCustomerButtonHandler" prefWidth="200.0" text="Edit Customer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
          </children>
          <GridPane.margin>
             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
