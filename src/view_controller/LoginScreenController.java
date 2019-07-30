@@ -40,7 +40,7 @@ public class LoginScreenController implements Initializable {
         String password = input_password.getText();
 
         ResourceBundle rb = ResourceBundle.getBundle("Resources/Login", Locale.getDefault());
-
+        /*
         if (username.equals("") || password.equals("")) {
             Alert emptyFields = new Alert(Alert.AlertType.WARNING);
             emptyFields.setTitle(rb.getString("warning"));
@@ -51,12 +51,14 @@ public class LoginScreenController implements Initializable {
         } else if (0==1) {
             // incorrect login check and alert, need to hook to database first
         } else {
+
+         */
             Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
             stage.setTitle("Scheduler Main Screen");
             stage.setScene(new Scene(root, 550, 700));
             stage.centerOnScreen();
             stage.show();
-        }
+       // }
     }
 }

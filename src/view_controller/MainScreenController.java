@@ -30,4 +30,14 @@ public class MainScreenController implements Initializable {
         stage.centerOnScreen();
         stage.show();
     }
+
+    @FXML
+    private void addCustomerButtonHandler(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("AddCustomer.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Add Customer");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root, 550, 500));
+        stage.show();
+    }
 }
