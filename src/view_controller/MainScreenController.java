@@ -61,30 +61,10 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    private void editAppointmentButtonHandler(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("EditAppointment.fxml"));
+    private void viewAppointmentButtonHandler(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("ViewAppointment.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Edit Appointment");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(new Scene(root, 700, 550));
-        stage.show();
-    }
-
-    @FXML
-    private void weeklyCalendarButtonHandler(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("WeeklyCalendar.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Weekly Calendar");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(new Scene(root, 700, 550));
-        stage.show();
-    }
-
-    @FXML
-    private void monthlyCalendarButtonHandler(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("MonthlyCalendar.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Monthly Calendar");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root, 700, 550));
         stage.show();
