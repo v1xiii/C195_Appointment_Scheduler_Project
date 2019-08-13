@@ -15,10 +15,20 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LoginScreenController implements Initializable {
+
+    private static String currUser;
 
     @FXML
     private Label label_username, label_password, label_login;
@@ -34,13 +44,17 @@ public class LoginScreenController implements Initializable {
         //System.out.println(rb.getString("intro"));
     }
 
+    private static void setCurrUser(String userName) {
+        currUser = userName;
+    }
+
     @FXML
     private void loginButtonHandler(ActionEvent event) throws IOException {
         String username = input_username.getText();
         String password = input_password.getText();
 
         ResourceBundle rb = ResourceBundle.getBundle("Resources/Login", Locale.getDefault());
-        /*
+    /*
         if (username.equals("") || password.equals("")) {
             Alert emptyFields = new Alert(Alert.AlertType.WARNING);
             emptyFields.setTitle(rb.getString("warning"));
@@ -51,14 +65,18 @@ public class LoginScreenController implements Initializable {
         } else if (0==1) {
             // incorrect login check and alert, need to hook to database first
         } else {
+    */
+            setCurrUser(username);
+            Path path = Paths.get("logins.txt");
+            Files.write(path, Arrays.asList("User:" + currUser + " -- Login Time: " + Date.from(Instant.now()).toString() + "."),
+            StandardCharsets.UTF_8, Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
 
-         */
             Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
             stage.setTitle("Scheduler Main Screen");
             stage.setScene(new Scene(root, 550, 700));
             stage.centerOnScreen();
             stage.show();
-       // }
+        //}
     }
 }
