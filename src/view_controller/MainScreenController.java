@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -16,10 +17,33 @@ import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
 
-    public void initialize(URL url, ResourceBundle rb) {
+    @FXML private Button button_logout;
+    @FXML private Button button_add_customer;
 
+    public void initialize(URL url, ResourceBundle rb) {
+        button_logout.setOnAction(event -> { // wow, this is seems to be a horrible way to use lambdas, takes up more lines than it did before
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("LoginScreen.fxml"));
+                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+                stage.setTitle("Scheduler Login");
+                stage.setScene(new Scene(root, 550, 500));
+                stage.centerOnScreen();
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        button_add_customer.setOnAction(event -> { // lambdas continue to be pointless, the button/function worked fine without this entire block of code previously. All it does it remove the onAction in the FXML
+            try {
+                addCustomerButtonHandler(event);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
+    /*
     @FXML
     private void logoutButtonHandler(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("LoginScreen.fxml"));
@@ -29,6 +53,7 @@ public class MainScreenController implements Initializable {
         stage.centerOnScreen();
         stage.show();
     }
+    */
 
     @FXML
     private void addCustomerButtonHandler(ActionEvent event) throws IOException {

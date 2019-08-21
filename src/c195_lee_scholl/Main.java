@@ -24,8 +24,7 @@ public class Main extends Application {
     }
 }
 
-/* TODO
-* Database / Login
-* Add Customer
-*
-* */
+/*TODO
+Lambdas for alerts/buttons -- these seem to be pointless for opening windows, maybe try them for alerts or observableList stuff later
+Populate dropdown options
+ */

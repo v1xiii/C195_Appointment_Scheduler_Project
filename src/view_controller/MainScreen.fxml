@@ -32,7 +32,7 @@
             <Insets left="20.0" right="20.0" />
          </padding>
       </Label>
-      <Button fx:id="button_logout" mnemonicParsing="false" onAction="#logoutButtonHandler" prefWidth="100.0" text="Log Out" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+      <Button fx:id="button_logout" mnemonicParsing="false" prefWidth="100.0" text="Log Out" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin></Button>
@@ -74,7 +74,7 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Label>
-            <Button fx:id="button_add_customer" mnemonicParsing="false" onAction="#addCustomerButtonHandler" prefWidth="200.0" text="Add Customer" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="button_add_customer" mnemonicParsing="false" prefWidth="200.0" text="Add Customer" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
             <Button fx:id="button_edit_customer" mnemonicParsing="false" onAction="#editCustomerButtonHandler" prefWidth="200.0" text="Edit Customer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
          </children>
          <GridPane.margin>
