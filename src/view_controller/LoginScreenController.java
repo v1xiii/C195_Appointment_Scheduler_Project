@@ -20,11 +20,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.sql.SQLException;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
+
+import static model.DBController.checkLogin;
 
 public class LoginScreenController implements Initializable {
 
@@ -49,12 +49,12 @@ public class LoginScreenController implements Initializable {
     }
 
     @FXML
-    private void loginButtonHandler(ActionEvent event) throws IOException {
+    private void loginButtonHandler(ActionEvent event) throws IOException, SQLException {
         String username = input_username.getText();
         String password = input_password.getText();
 
         ResourceBundle rb = ResourceBundle.getBundle("Resources/Login", Locale.getDefault());
-    /*
+
         if (username.equals("") || password.equals("")) {
             Alert emptyFields = new Alert(Alert.AlertType.WARNING);
             emptyFields.setTitle(rb.getString("warning"));
@@ -62,21 +62,22 @@ public class LoginScreenController implements Initializable {
             emptyFields.setContentText(rb.getString("empty_content"));
             emptyFields.showAndWait();
 
-        } else if (0==1) {
-            // incorrect login check and alert, need to hook to database first
-        } else {
-    */
+        } else if (checkLogin(username, password)) {
             setCurrUser(username);
             Path path = Paths.get("logins.txt");
-            Files.write(path, Arrays.asList("User:" + currUser + " -- Login Time: " + Date.from(Instant.now()).toString() + "."),
-            StandardCharsets.UTF_8, Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
-
+            Files.write(path, Collections.singletonList("User:" + currUser + " -- Login Time: " + Date.from(Instant.now()).toString() + "."), StandardCharsets.UTF_8, Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
             Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
             stage.setTitle("Scheduler Main Screen");
             stage.setScene(new Scene(root, 550, 700));
             stage.centerOnScreen();
             stage.show();
-        //}
+        } else {
+            Alert emptyFields = new Alert(Alert.AlertType.WARNING);
+            emptyFields.setTitle(rb.getString("warning"));
+            emptyFields.setHeaderText(rb.getString("invalid_header"));
+            emptyFields.setContentText(rb.getString("invalid_content"));
+            emptyFields.showAndWait();
+        }
     }
 }
