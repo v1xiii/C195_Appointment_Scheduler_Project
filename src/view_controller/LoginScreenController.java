@@ -48,6 +48,10 @@ public class LoginScreenController implements Initializable {
         currUser = userName;
     }
 
+    public static String getCurrUser(){
+        return currUser;
+    }
+
     @FXML
     private void loginButtonHandler(ActionEvent event) throws IOException, SQLException {
         String username = input_username.getText();
@@ -63,6 +67,7 @@ public class LoginScreenController implements Initializable {
             emptyFields.showAndWait();
 
         } else if (checkLogin(username, password)) {
+
             setCurrUser(username);
             Path path = Paths.get("logins.txt");
             Files.write(path, Collections.singletonList("User:" + currUser + " -- Login Time: " + Date.from(Instant.now()).toString() + "."), StandardCharsets.UTF_8, Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
@@ -72,6 +77,7 @@ public class LoginScreenController implements Initializable {
             stage.setScene(new Scene(root, 550, 700));
             stage.centerOnScreen();
             stage.show();
+
         } else {
             Alert emptyFields = new Alert(Alert.AlertType.WARNING);
             emptyFields.setTitle(rb.getString("warning"));
@@ -79,5 +85,6 @@ public class LoginScreenController implements Initializable {
             emptyFields.setContentText(rb.getString("invalid_content"));
             emptyFields.showAndWait();
         }
+
     }
 }

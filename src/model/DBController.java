@@ -1,5 +1,7 @@
 package model;
 
+import view_controller.LoginScreenController;
+
 import java.sql.*;
 
 public class DBController{
@@ -28,5 +30,18 @@ public class DBController{
             System.out.println(retrievedUsername);
         }
         return username.equals(retrievedUsername) && password.equals(retrievedPassword); // interesting IDE simplification of if/else return true/false
+    }
+
+    public static void addCustomer(Customer customer) throws SQLException {
+        System.out.println("Let's add " + LoginScreenController.getCurrUser());
+
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, 1, 1, NOW(), ?, NOW(), ?)");
+        ps.setString(1, customer.getCustomerName());
+        ps.setString(2, LoginScreenController.getCurrUser());
+        ps.setString(3, LoginScreenController.getCurrUser());
+        //ps.execute();
+        Statement stmt = conn.createStatement();
+        ps.executeUpdate();
     }
 }
