@@ -58,7 +58,7 @@ public class LoginScreenController implements Initializable {
         String password = input_password.getText();
 
         ResourceBundle rb = ResourceBundle.getBundle("Resources/Login", Locale.getDefault());
-
+        /*
         if (username.equals("") || password.equals("")) {
             Alert emptyFields = new Alert(Alert.AlertType.WARNING);
             emptyFields.setTitle(rb.getString("warning"));
@@ -67,8 +67,9 @@ public class LoginScreenController implements Initializable {
             emptyFields.showAndWait();
 
         } else if (checkLogin(username, password)) {
-
             setCurrUser(username);
+         */
+            setCurrUser("PlaceHolder"); // DELETE THIS WHEN UNCOMMENTING LOGIN VERIFICATION
             Path path = Paths.get("logins.txt");
             Files.write(path, Collections.singletonList("User:" + currUser + " -- Login Time: " + Date.from(Instant.now()).toString() + "."), StandardCharsets.UTF_8, Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
             Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
@@ -77,7 +78,7 @@ public class LoginScreenController implements Initializable {
             stage.setScene(new Scene(root, 550, 700));
             stage.centerOnScreen();
             stage.show();
-
+        /*
         } else {
             Alert emptyFields = new Alert(Alert.AlertType.WARNING);
             emptyFields.setTitle(rb.getString("warning"));
@@ -85,6 +86,6 @@ public class LoginScreenController implements Initializable {
             emptyFields.setContentText(rb.getString("invalid_content"));
             emptyFields.showAndWait();
         }
-
+         */
     }
 }

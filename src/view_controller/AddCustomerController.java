@@ -58,8 +58,6 @@ public class AddCustomerController implements Initializable {
         customer.setPostalCode(postalCode);
         customer.setPhone(phone);
 
-        System.out.println(customer.getCustomerName());
-
         DBController.addCustomer(customer);
 
         //Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

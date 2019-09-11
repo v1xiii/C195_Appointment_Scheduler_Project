@@ -53,7 +53,7 @@ public class Customer {
         return customerName;
     }
 
-    public String getAddress() {
+    public String getAddress1() {
         return address;
     }
 
