@@ -6,9 +6,10 @@ public class Customer {
     private String address;
     private String address2;
     private String city;
-    private String country;
     private String postalCode;
+    private String country;
     private String phone;
+    private Boolean active;
 
     public Customer() {
     }
@@ -33,16 +34,20 @@ public class Customer {
         this.city = city;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Integer getCustomerId() {
@@ -75,5 +80,9 @@ public class Customer {
 
     public String getPhone() {
         return phone;
+    }
+
+    public Boolean getActive() {
+        return active;
     }
 }

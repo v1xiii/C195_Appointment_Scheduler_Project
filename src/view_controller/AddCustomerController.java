@@ -57,6 +57,7 @@ public class AddCustomerController implements Initializable {
         customer.setCountry(country);
         customer.setPostalCode(postalCode);
         customer.setPhone(phone);
+        customer.setActive(true);
 
         DBController.addCustomer(customer);
 

@@ -1,9 +1,9 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import view_controller.LoginScreenController;
-
 import java.sql.*;
-
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class DBController{
@@ -163,5 +163,39 @@ public class DBController{
             }
         }
         return addressID; // and return that as the id
+    }
+
+    public static ObservableList<Customer> getCustomers() throws SQLException {
+        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        PreparedStatement ps = conn.prepareStatement("" +
+                "SELECT cu.customerId, cu.customerName, a.address, a.address2, ci.city, co.country, a.postalCode, a.phone, cu.active " +
+                "FROM customer cu " +
+                "LEFT JOIN address a ON cu.addressId = a.addressId " +
+                "LEFT JOIN city ci ON a.cityId = ci.cityId " +
+                "LEFT JOIN country co ON ci.countryId = co.countryId;");
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Customer customer = new Customer();
+            customer.setCustomerId(rs.getInt(1));
+            customer.setCustomerName(rs.getString(2));
+            customer.setAddress1(rs.getString(3));
+            customer.setAddress2(rs.getString(4));
+            customer.setCity(rs.getString(5));
+            customer.setCountry(rs.getString(6));
+            customer.setPostalCode(rs.getString(7));
+            customer.setPhone(rs.getString(8));
+            customer.setActive(rs.getBoolean(9));
+
+            allCustomers.add(customer);
+        }
+
+        rs.close();
+
+        return allCustomers;
     }
 }
