@@ -61,7 +61,7 @@ public class AddCustomerController implements Initializable {
 
         DBController.addCustomer(customer);
 
-        //Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        //stage.close();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
     }
 }

@@ -170,7 +170,7 @@ public class DBController{
 
         Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         PreparedStatement ps = conn.prepareStatement("" +
-                "SELECT cu.customerId, cu.customerName, a.address, a.address2, ci.city, co.country, a.postalCode, a.phone, cu.active " +
+                "SELECT cu.customerId, cu.customerName, a.address, a.address2, ci.city, co.country, a.postalCode, a.phone, cu.active, a.addressId " +
                 "FROM customer cu " +
                 "LEFT JOIN address a ON cu.addressId = a.addressId " +
                 "LEFT JOIN city ci ON a.cityId = ci.cityId " +
@@ -190,6 +190,7 @@ public class DBController{
             customer.setPostalCode(rs.getString(7));
             customer.setPhone(rs.getString(8));
             customer.setActive(rs.getBoolean(9));
+            customer.setAddressId(rs.getInt(10));
 
             allCustomers.add(customer);
         }
@@ -197,5 +198,62 @@ public class DBController{
         rs.close();
 
         return allCustomers;
+    }
+
+    public static void deleteCustomer(Customer customer) throws SQLException {
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM customer WHERE customerId = ?");
+        ps.setInt(1, customer.getCustomerId());
+        Statement stmt = conn.createStatement();
+        ps.executeUpdate();
+
+        /*
+        PreparedStatement ps2 = conn.prepareStatement("DELETE FROM address WHERE addressId = ?");
+        ps2.setInt(1, customer.getAddressId());
+        Statement stmt2 = conn.createStatement();
+        ps2.executeUpdate();
+        */
+    }
+
+    public static void updateCustomer(Customer customer) throws SQLException {
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+        System.out.println("Update started...");
+        System.out.println("Checking country table...");
+
+        Integer countryId = addCountry(customer.getCountry());
+
+        System.out.println("addCountry() returns "+countryId);
+        System.out.println("Checking city table...");
+
+        Integer cityId = addCity(customer.getCity(), countryId);
+
+        System.out.println("addCity() returns "+cityId);
+        System.out.println("Updating address table...");
+
+        PreparedStatement ps2 = conn.prepareStatement("UPDATE address SET address = ?, address2 = ?,  cityId = ?, postalCode = ?, phone = ?, lastUpdate = NOW(), lastUpdateBy = ? WHERE addressId = ?");
+        ps2.setString(1, customer.getAddress1());
+        ps2.setString(2, customer.getAddress2());
+        ps2.setInt(3, cityId);
+        ps2.setString(4, customer.getPostalCode());
+        ps2.setString(5, customer.getPhone());
+        ps2.setString(6, LoginScreenController.getCurrUser());
+        ps2.setInt(7, customer.getAddressId());
+        Statement stmt2 = conn.createStatement();
+        ps2.executeUpdate();
+
+        System.out.println("Address table updated");
+        System.out.println("Updating customer table...");
+
+        PreparedStatement ps = conn.prepareStatement("UPDATE customer SET customerName = ?, lastUpdate = NOW(), lastUpdateBy = ? WHERE customerId = ?");
+        ps.setString(1, customer.getCustomerName());
+        ps.setString(2, LoginScreenController.getCurrUser());
+        ps.setInt(3, customer.getCustomerId());
+        Statement stmt = conn.createStatement();
+        ps.executeUpdate();
+
+        System.out.println("Customer table updated");
+        System.out.println("**Customer update complete**");
     }
 }

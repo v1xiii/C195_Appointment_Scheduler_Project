@@ -10,6 +10,7 @@ public class Customer {
     private String country;
     private String phone;
     private Boolean active;
+    private Integer addressId;
 
     public Customer() {
     }
@@ -50,6 +51,10 @@ public class Customer {
         this.active = active;
     }
 
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
     public Integer getCustomerId() {
         return customerId;
     }
@@ -84,5 +89,9 @@ public class Customer {
 
     public Boolean getActive() {
         return active;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
     }
 }
