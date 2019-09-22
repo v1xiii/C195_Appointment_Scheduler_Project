@@ -14,8 +14,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+
+import static java.time.DayOfWeek.SATURDAY;
+import static java.time.DayOfWeek.SUNDAY;
 
 public class AddAppointmentController implements Initializable {
 
@@ -28,8 +32,8 @@ public class AddAppointmentController implements Initializable {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
-
-                setDisable(empty || date.compareTo(today) < 0 );
+                DayOfWeek dayOfWeek = date.getDayOfWeek();
+                setDisable(empty || date.compareTo(today) < 0 || dayOfWeek == SATURDAY || dayOfWeek == SUNDAY);
             }
         });
     }
