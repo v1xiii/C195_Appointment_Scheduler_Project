@@ -92,15 +92,15 @@
             <ChoiceBox fx:id="dropdown_time_from" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="8:00" />
-                        <String fx:value="9:00" />
-                        <String fx:value="10:00" />
-                        <String fx:value="11:00" />
-                        <String fx:value="12:00" />
-                        <String fx:value="1:00" />
-                        <String fx:value="2:00" />
-                        <String fx:value="3:00" />
-                        <String fx:value="4:00" />
+                        <String fx:value="8:00 AM" />
+                        <String fx:value="9:00 AM" />
+                        <String fx:value="10:00 AM" />
+                        <String fx:value="11:00 AM" />
+                        <String fx:value="12:00 PM" />
+                        <String fx:value="1:00 PM" />
+                        <String fx:value="2:00 PM" />
+                        <String fx:value="3:00 PM" />
+                        <String fx:value="4:00 PM" />
                     </FXCollections>
                 </items>
             </ChoiceBox>
@@ -110,15 +110,15 @@
                </GridPane.margin>
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="9:00" />
-                        <String fx:value="10:00" />
-                        <String fx:value="11:00" />
-                        <String fx:value="12:00" />
-                        <String fx:value="1:00" />
-                        <String fx:value="2:00" />
-                        <String fx:value="3:00" />
-                        <String fx:value="4:00" />
-                        <String fx:value="5:00" />
+                        <String fx:value="9:00 AM" />
+                        <String fx:value="10:00 AM" />
+                        <String fx:value="11:00 AM" />
+                        <String fx:value="12:00 PM" />
+                        <String fx:value="1:00 PM" />
+                        <String fx:value="2:00 PM" />
+                        <String fx:value="3:00 PM" />
+                        <String fx:value="4:00 PM" />
+                        <String fx:value="5:00 PM" />
                     </FXCollections>
                 </items>
             </ChoiceBox>

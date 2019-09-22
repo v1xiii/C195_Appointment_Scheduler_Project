@@ -9,10 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,8 +19,10 @@ import model.DBController;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import static java.time.DayOfWeek.SATURDAY;
@@ -34,10 +33,18 @@ public class AddAppointmentController implements Initializable {
     @FXML private TableView<Customer> table_customers;
     @FXML private TableColumn<Customer, Integer> table_customer_id;
     @FXML private TableColumn<Customer, String> table_customer_name;
+
+    @FXML private TextField input_title;
+    @FXML private TextField input_description;
+    @FXML private TextField input_location;
+    @FXML private TextField input_contact;
+    @FXML private TextField input_type;
+    @FXML private TextField input_url;
     @FXML private DatePicker datepicker_date;
+    @FXML private ChoiceBox dropdown_time_from;
+    @FXML private ChoiceBox dropdown_time_to;
 
     public void initialize(URL url, ResourceBundle rb) {
-
         // populate customers table
         ObservableList<Customer> allCustomersList = FXCollections.observableArrayList();
         table_customer_id.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
@@ -49,7 +56,7 @@ public class AddAppointmentController implements Initializable {
             e.printStackTrace();
         }
 
-        // disable dates in datepicker prior to today
+        // disable dates in datepicker prior to today and also weekends
         datepicker_date.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
@@ -68,6 +75,20 @@ public class AddAppointmentController implements Initializable {
 
     @FXML
     private void saveButtonHandler (ActionEvent event) throws IOException {
+        Customer selectedCustomer = table_customers.getSelectionModel().getSelectedItem();
+
+        Integer customerId = selectedCustomer.getCustomerId();
+        Integer userId = LoginScreenController.getCurrUserId();
+        String title = input_title.getText();
+        String description = input_description.getText();
+        String location = input_location.getText();
+        String contact = input_contact.getText();
+        String type = input_type.getText();
+        String url = input_url.getText();
+        LocalDate date = datepicker_date.getValue();
+        Timestamp start = Timestamp.valueOf(dropdown_time_from.getValue().toString());
+        Timestamp end = Timestamp.valueOf(dropdown_time_to.getValue().toString());
+
         //Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         //stage.close();
     }

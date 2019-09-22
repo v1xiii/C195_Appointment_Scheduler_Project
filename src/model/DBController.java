@@ -14,7 +14,7 @@ public class DBController{
     private static final String DB_USER = "U05oua";
     private static final String DB_PASS = "53688564939";
 
-    public static boolean checkLogin(String username, String password) throws SQLException {
+    public static Integer checkLogin(String username, String password) throws SQLException {
         Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE userName = ? AND password = ?");
         ps.setString(1, username);
@@ -22,15 +22,22 @@ public class DBController{
         Statement stmt = conn.createStatement();
         ResultSet rs = ps.executeQuery();
 
+        Integer retrievedUserId = null;
         String retrievedUsername = null;
         String retrievedPassword = null;
 
         while (rs.next()) {
+            retrievedUserId = rs.getInt(1);
             retrievedUsername = rs.getString(2);
             retrievedPassword = rs.getString(3);
         }
         rs.close();
-        return username.equals(retrievedUsername) && password.equals(retrievedPassword); // interesting IDE simplification of if/else return true/false
+
+        if (username.equals(retrievedUsername) && password.equals(retrievedPassword)){
+            return retrievedUserId;
+        } else {
+            return -1;
+        }
     }
 
     public static void addCustomer(Customer customer) throws SQLException {

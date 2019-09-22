@@ -29,6 +29,7 @@ import static model.DBController.checkLogin;
 public class LoginScreenController implements Initializable {
 
     private static String currUser;
+    private static Integer currUserId;
 
     @FXML
     private Label label_username, label_password, label_login;
@@ -48,8 +49,16 @@ public class LoginScreenController implements Initializable {
         currUser = userName;
     }
 
+    private static void setCurrUserId(Integer userId) {
+        currUserId = userId;
+    }
+
     public static String getCurrUser(){
         return currUser;
+    }
+
+    public static Integer getCurrUserId(){
+        return currUserId;
     }
 
     @FXML
@@ -66,10 +75,14 @@ public class LoginScreenController implements Initializable {
             emptyFields.setContentText(rb.getString("empty_content"));
             emptyFields.showAndWait();
 
-        } else if (checkLogin(username, password)) {
-            setCurrUser(username);
-         */
-            setCurrUser("PlaceHolder"); // DELETE THIS WHEN UNCOMMENTING LOGIN VERIFICATION
+        } else {
+            setCurrUserId(checkLogin(username, password)); //This may be broken when re-activated due to setCurrUserId being untested
+        }
+
+        if (getCurrUserId() > -1){
+        */
+            setCurrUser("test"); // DELETE THIS WHEN UNCOMMENTING LOGIN VERIFICATION
+            setCurrUserId(1); // DELETE THIS WHEN UNCOMMENTING LOGIN VERIFICATION
             Path path = Paths.get("logins.txt");
             Files.write(path, Collections.singletonList("User:" + currUser + " -- Login Time: " + Date.from(Instant.now()).toString() + "."), StandardCharsets.UTF_8, Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
             Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
