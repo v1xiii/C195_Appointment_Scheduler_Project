@@ -201,7 +201,6 @@ public class DBController{
 
             allCustomers.add(customer);
         }
-
         rs.close();
 
         return allCustomers;

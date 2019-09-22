@@ -1,6 +1,8 @@
 package model;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -13,7 +15,6 @@ public class Appointment {
     private String contact;
     private String type;
     private String url;
-    private Date date;
     private Timestamp start;
     private Timestamp end;
 
@@ -50,10 +51,6 @@ public class Appointment {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public void setStart(Timestamp start) {
@@ -94,10 +91,6 @@ public class Appointment {
 
     public String getUrl() {
         return url;
-    }
-
-    public Date getDate() {
-        return date;
     }
 
     public Timestamp getStart() {

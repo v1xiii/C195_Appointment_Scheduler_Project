@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.Appointment;
 import model.Customer;
 import model.DBController;
 
@@ -22,11 +23,15 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
 
 import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
+import static java.time.LocalTime.of;
 
 public class AddAppointmentController implements Initializable {
 
@@ -86,8 +91,29 @@ public class AddAppointmentController implements Initializable {
         String type = input_type.getText();
         String url = input_url.getText();
         LocalDate date = datepicker_date.getValue();
-        Timestamp start = Timestamp.valueOf(dropdown_time_from.getValue().toString());
-        Timestamp end = Timestamp.valueOf(dropdown_time_to.getValue().toString());
+
+        String startSelection = (String) dropdown_time_from.getSelectionModel().getSelectedItem();
+        String endSelection = (String) dropdown_time_to.getSelectionModel().getSelectedItem();
+
+        int startHourEnd = startSelection.indexOf(":");
+        int endHourEnd = endSelection.indexOf(":");
+        String startHour = startSelection.substring(0 , startHourEnd);
+        String startAmPm = startSelection.substring(startSelection.lastIndexOf(' ') + 1);
+        String endHour = endSelection.substring(0 , endHourEnd);
+        String endAmPm = endSelection.substring(endSelection.lastIndexOf(' ') + 1);
+
+        DateTimeFormatter localDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a");
+
+        //LocalTime startLT = LocalTime.of(Integer.parseInt(startHour), 0);
+        //LocalTime endLT = LocalTime.of(Integer.parseInt(endHour), 0);
+
+        LocalDateTime startLDT = LocalDateTime.parse(date.toString() + " " + startHour + ":" + "00" + " " + startAmPm, localDateFormat);
+        LocalDateTime endLDT = LocalDateTime.parse(date.toString() + " " + endHour + ":" + "00" + " " + endAmPm, localDateFormat);
+
+        System.out.println(startLDT);
+        System.out.println(endLDT);
+
+        // UP NEXT TIME ZONE CONVERSION
 
         //Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         //stage.close();
