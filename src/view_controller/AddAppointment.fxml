@@ -169,8 +169,8 @@
             </GridPane.margin></Button>
         <TableView fx:id="table_customers" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
             <columns>
-                <TableColumn prefWidth="75.0" text="ID" />
-                <TableColumn prefWidth="117.0" text="Customer Name" />
+                <TableColumn fx:id="table_customer_id" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="table_customer_name" prefWidth="117.0" text="Customer Name" />
             </columns>
             <GridPane.margin>
                 <Insets right="10.0" />
