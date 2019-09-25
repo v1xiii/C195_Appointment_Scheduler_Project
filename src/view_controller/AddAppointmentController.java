@@ -21,13 +21,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
@@ -102,20 +100,42 @@ public class AddAppointmentController implements Initializable {
         String endHour = endSelection.substring(0 , endHourEnd);
         String endAmPm = endSelection.substring(endSelection.lastIndexOf(' ') + 1);
 
-        DateTimeFormatter localDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a");
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a");
 
-        //LocalTime startLT = LocalTime.of(Integer.parseInt(startHour), 0);
-        //LocalTime endLT = LocalTime.of(Integer.parseInt(endHour), 0);
+        LocalDateTime startLDT = LocalDateTime.parse(date.toString() + " " + startHour + ":" + "00" + " " + startAmPm, dateFormat);
+        LocalDateTime endLDT = LocalDateTime.parse(date.toString() + " " + endHour + ":" + "00" + " " + endAmPm, dateFormat);
 
-        LocalDateTime startLDT = LocalDateTime.parse(date.toString() + " " + startHour + ":" + "00" + " " + startAmPm, localDateFormat);
-        LocalDateTime endLDT = LocalDateTime.parse(date.toString() + " " + endHour + ":" + "00" + " " + endAmPm, localDateFormat);
+        ZoneId systemTZ = ZoneId.of(TimeZone.getDefault().getID());
 
-        System.out.println(startLDT);
-        System.out.println(endLDT);
+        ZonedDateTime startZDT = ZonedDateTime.of(startLDT, systemTZ);
+        ZonedDateTime endZDT = ZonedDateTime.of(endLDT, systemTZ);
 
-        // UP NEXT TIME ZONE CONVERSION
+        ZonedDateTime startUTC = startZDT.withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime endUTC = endZDT.withZoneSameInstant(ZoneId.of("UTC"));
 
-        //Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        //stage.close();
+        Appointment appointment = new Appointment();
+        appointment.setCustomerId(customerId);
+        appointment.setUserId(userId);
+        appointment.setTitle(title);
+        appointment.setDescription(description);
+        appointment.setLocation(location);
+        appointment.setContact(contact);
+        appointment.setType(type);
+        appointment.setUrl(url);
+        appointment.setStart(startUTC);
+        appointment.setEnd((endUTC));
+
+        int response = 0;
+        try {
+            response = DBController.addAppointment(appointment);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (response == 1){
+            System.out.println("SUCCESS!!!");
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+        }
     }
 }

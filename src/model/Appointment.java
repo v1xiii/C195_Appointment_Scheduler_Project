@@ -1,9 +1,6 @@
 package model;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class Appointment {
@@ -15,8 +12,8 @@ public class Appointment {
     private String contact;
     private String type;
     private String url;
-    private Timestamp start;
-    private Timestamp end;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
 
     public Appointment() {
     }
@@ -53,11 +50,11 @@ public class Appointment {
         this.url = url;
     }
 
-    public void setStart(Timestamp start) {
+    public void setStart(ZonedDateTime start) {
         this.start = start;
     }
 
-    public void setEnd(Timestamp end) {
+    public void setEnd(ZonedDateTime end) {
         this.end = end;
     }
 
@@ -93,11 +90,11 @@ public class Appointment {
         return url;
     }
 
-    public Timestamp getStart() {
+    public ZonedDateTime getStart() {
         return start;
     }
 
-    public Timestamp getEnd() {
+    public ZonedDateTime getEnd() {
         return end;
     }
 }

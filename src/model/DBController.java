@@ -1,9 +1,12 @@
 package model;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import view_controller.LoginScreenController;
 import java.sql.*;
+
+import static java.lang.Boolean.TRUE;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class DBController{
@@ -261,5 +264,34 @@ public class DBController{
 
         System.out.println("Customer table updated");
         System.out.println("**Customer update complete**");
+    }
+    public static Integer addAppointment(Appointment appointment) throws SQLException {
+        Timestamp startTS = Timestamp.valueOf(appointment.getStart().toLocalDateTime());
+        Timestamp endTS = Timestamp.valueOf(appointment.getEnd().toLocalDateTime());
+
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        PreparedStatement ps = conn.prepareStatement("" +
+                "INSERT INTO appointment (" +
+                    "customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy" +
+                ") " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?)" // wow, there must be a better way to do these prepared statements...
+        );
+
+        ps.setInt(1, appointment.getCustomerId());
+        ps.setInt(2, appointment.getUserId());
+        ps.setString(3, appointment.getTitle());
+        ps.setString(4, appointment.getDescription());
+        ps.setString(5, appointment.getLocation());
+        ps.setString(6, appointment.getContact());
+        ps.setString(7, appointment.getType());
+        ps.setString(8, appointment.getUrl());
+        ps.setTimestamp(9, startTS);
+        ps.setTimestamp(10, endTS);
+        ps.setString(11, LoginScreenController.getCurrUser());
+        ps.setString(12, LoginScreenController.getCurrUser());
+        Statement stmt = conn.createStatement();
+        ps.executeUpdate();
+
+        return 1;
     }
 }
