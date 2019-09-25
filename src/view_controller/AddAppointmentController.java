@@ -133,7 +133,6 @@ public class AddAppointmentController implements Initializable {
         }
 
         if (response == 1){
-            System.out.println("SUCCESS!!!");
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.close();
         }

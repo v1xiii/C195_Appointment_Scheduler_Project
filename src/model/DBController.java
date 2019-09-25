@@ -63,7 +63,7 @@ public class DBController{
         System.out.println("**Customer added**");
 
         Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, 1, NOW(), ?, NOW(), ?)");
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, 1, UTC_TIMESTAMP(), ?, UTC_TIMESTAMP(), ?)");
         ps.setString(1, customer.getCustomerName());
         ps.setInt(2, addressID);
         ps.setString(3, LoginScreenController.getCurrUser());
@@ -87,7 +87,7 @@ public class DBController{
             return countryID; // return the ID
         } else { // else add a new country
             currID.close();
-            PreparedStatement ps2 = conn.prepareStatement("INSERT INTO country (country, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, NOW(), ?, NOW(), ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps2 = conn.prepareStatement("INSERT INTO country (country, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, UTC_TIMESTAMP(), ?, UTC_TIMESTAMP(), ?)", Statement.RETURN_GENERATED_KEYS);
             ps2.setString(1, country);
             ps2.setString(2, LoginScreenController.getCurrUser());
             ps2.setString(3, LoginScreenController.getCurrUser());
@@ -119,7 +119,7 @@ public class DBController{
             return cityID; // return the ID
         } else { // else add a new city
             currID.close();
-            PreparedStatement ps2 = conn.prepareStatement("INSERT INTO city (city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, NOW(), ?, NOW(), ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps2 = conn.prepareStatement("INSERT INTO city (city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, UTC_TIMESTAMP(), ?, UTC_TIMESTAMP(), ?)", Statement.RETURN_GENERATED_KEYS);
             ps2.setString(1, city);
             ps2.setInt(2, countryID);
             ps2.setString(3, LoginScreenController.getCurrUser());
@@ -155,7 +155,7 @@ public class DBController{
             return addressID; // return the ID
         } else { // else add a new address
             currID.close();
-            PreparedStatement ps2 = conn.prepareStatement("INSERT INTO address (address, address2, cityID, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW(), ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps2 = conn.prepareStatement("INSERT INTO address (address, address2, cityID, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, ?, ?, ?, UTC_TIMESTAMP(), ?, UTC_TIMESTAMP(), ?)", Statement.RETURN_GENERATED_KEYS);
             ps2.setString(1, address1);
             ps2.setString(2, address2);
             ps2.setInt(3, cityID);
@@ -241,7 +241,7 @@ public class DBController{
         System.out.println("addCity() returns "+cityId);
         System.out.println("Updating address table...");
 
-        PreparedStatement ps2 = conn.prepareStatement("UPDATE address SET address = ?, address2 = ?,  cityId = ?, postalCode = ?, phone = ?, lastUpdate = NOW(), lastUpdateBy = ? WHERE addressId = ?");
+        PreparedStatement ps2 = conn.prepareStatement("UPDATE address SET address = ?, address2 = ?,  cityId = ?, postalCode = ?, phone = ?, lastUpdate = UTC_TIMESTAMP(), lastUpdateBy = ? WHERE addressId = ?");
         ps2.setString(1, customer.getAddress1());
         ps2.setString(2, customer.getAddress2());
         ps2.setInt(3, cityId);
@@ -255,7 +255,7 @@ public class DBController{
         System.out.println("Address table updated");
         System.out.println("Updating customer table...");
 
-        PreparedStatement ps = conn.prepareStatement("UPDATE customer SET customerName = ?, lastUpdate = NOW(), lastUpdateBy = ? WHERE customerId = ?");
+        PreparedStatement ps = conn.prepareStatement("UPDATE customer SET customerName = ?, lastUpdate = UTC_TIMESTAMP(), lastUpdateBy = ? WHERE customerId = ?");
         ps.setString(1, customer.getCustomerName());
         ps.setString(2, LoginScreenController.getCurrUser());
         ps.setInt(3, customer.getCustomerId());
@@ -274,7 +274,7 @@ public class DBController{
                 "INSERT INTO appointment (" +
                     "customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy" +
                 ") " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?)" // wow, there must be a better way to do these prepared statements...
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), ?, UTC_TIMESTAMP(), ?)" // wow, there must be a better way to do these prepared statements...
         );
 
         ps.setInt(1, appointment.getCustomerId());
