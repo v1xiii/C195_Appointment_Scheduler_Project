@@ -50,8 +50,8 @@ public class AddAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // populate customers table
         ObservableList<Customer> allCustomersList = FXCollections.observableArrayList();
-        table_customer_id.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
-        table_customer_name.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
+        table_customer_id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        table_customer_name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         table_customers.refresh();
         try {
             table_customers.setItems(DBController.getCustomers());
@@ -62,10 +62,10 @@ public class AddAppointmentController implements Initializable {
         // disable dates in datepicker prior to today and also weekends
         datepicker_date.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                LocalDate today = LocalDate.now();
-                DayOfWeek dayOfWeek = date.getDayOfWeek();
-                setDisable(empty || date.compareTo(today) < 0 || dayOfWeek == SATURDAY || dayOfWeek == SUNDAY);
+            super.updateItem(date, empty);
+            LocalDate today = LocalDate.now();
+            DayOfWeek dayOfWeek = date.getDayOfWeek();
+            setDisable(empty || date.compareTo(today) < 0 || dayOfWeek == SATURDAY || dayOfWeek == SUNDAY);
             }
         });
     }

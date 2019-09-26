@@ -5,6 +5,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import view_controller.LoginScreenController;
 import java.sql.*;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.TimeZone;
 
 import static java.lang.Boolean.TRUE;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
@@ -293,5 +296,40 @@ public class DBController{
         ps.executeUpdate();
 
         return 1;
+    }
+
+    public static ObservableList<Appointment> getAppointments() throws SQLException {
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+
+        ZoneId systemTZ = ZoneId.of(TimeZone.getDefault().getID());
+
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM appointment");
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Appointment appointment = new Appointment();
+            appointment.setCustomerId(Integer.parseInt(rs.getString(2)));
+            appointment.setUserId(Integer.parseInt(rs.getString(3)));
+            appointment.setTitle(rs.getString(4));
+            appointment.setDescription(rs.getString(5));
+            appointment.setLocation(rs.getString(6));
+            appointment.setContact(rs.getString(7));
+            appointment.setType(rs.getString(8));
+            appointment.setUrl(rs.getString(9));
+
+            ZonedDateTime startZDT = ZonedDateTime.ofInstant(rs.getTimestamp(10).toInstant(), ZoneId.of(TimeZone.getDefault().getID()));
+            ZonedDateTime endZDT = ZonedDateTime.ofInstant(rs.getTimestamp(11).toInstant(), ZoneId.of(TimeZone.getDefault().getID()));
+
+            appointment.setStart(startZDT);
+            appointment.setEnd(endZDT);
+
+            allAppointments.add(appointment);
+        }
+        rs.close();
+
+        return allAppointments;
     }
 }
