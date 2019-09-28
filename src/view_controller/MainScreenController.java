@@ -89,7 +89,7 @@ public class MainScreenController implements Initializable {
     private void viewAppointmentButtonHandler(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("ViewAppointment.fxml"));
         Stage stage = new Stage();
-        stage.setTitle("Edit Appointment");
+        stage.setTitle("Appointments");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root, 700, 550));
         stage.show();

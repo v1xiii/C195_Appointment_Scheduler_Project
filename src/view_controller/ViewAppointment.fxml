@@ -56,12 +56,12 @@
                 <Insets />
             </GridPane.margin>
         </TableView>
-      <Button fx:id="button_view" layoutX="30.0" layoutY="435.0" mnemonicParsing="false" onAction="#viewButtonHandler" prefWidth="100.0" text="View/Edit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <Button fx:id="button_view" layoutX="30.0" layoutY="435.0" mnemonicParsing="false" onAction="#editButtonHandler" prefWidth="100.0" text="View/Edit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
       </Button>
-      <ChoiceBox fx:id="dropdown_filter" prefWidth="150.0" value="All" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+      <ChoiceBox fx:id="dropdown_filter" onAction="#filterChoiceHandler" prefWidth="150.0" value="All" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="10.0" />
          </GridPane.margin>
