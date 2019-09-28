@@ -1,6 +1,5 @@
 package view_controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Appointment;
-import model.Customer;
 import model.DBController;
 
 import java.io.IOException;
@@ -36,10 +34,12 @@ public class ViewAppointmentController implements Initializable {
     @FXML private ChoiceBox dropdown_filter;
 
     private ObservableList<Appointment> allAppointments;
+    private static Appointment appointmentToModify;
 
     public void initialize(URL url, ResourceBundle rb) {
+
         try {
-            allAppointments = DBController.getAppointments();
+            this.allAppointments = DBController.getAppointments();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,6 +54,14 @@ public class ViewAppointmentController implements Initializable {
         table_appointments.setItems(allAppointments);
     }
 
+    private void setAppointmentToModify(Appointment appointment){
+        appointmentToModify = appointment;
+    }
+
+    static Appointment getAppointmentToModify(){
+        return appointmentToModify;
+    }
+
     @FXML
     private void cancelButtonHandler(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -62,7 +70,7 @@ public class ViewAppointmentController implements Initializable {
 
     @FXML
     private void editButtonHandler(ActionEvent event) throws IOException {
-        Appointment selectedAppointment = table_appointments.getSelectionModel().getSelectedItem();
+        setAppointmentToModify(table_appointments.getSelectionModel().getSelectedItem());
 
         Parent root = FXMLLoader.load(getClass().getResource("EditAppointment.fxml"));
         Stage stage = new Stage();
@@ -89,10 +97,6 @@ public class ViewAppointmentController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        allAppointments.forEach((appointment) -> {
-            System.out.println(appointment.getStart());
-        });
 
         String filter = (String) dropdown_filter.getSelectionModel().getSelectedItem();
 

@@ -49,7 +49,6 @@ public class AddAppointmentController implements Initializable {
 
     public void initialize(URL url, ResourceBundle rb) {
         // populate customers table
-        ObservableList<Customer> allCustomersList = FXCollections.observableArrayList();
         table_customer_id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         table_customer_name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         table_customers.refresh();
