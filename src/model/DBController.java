@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import view_controller.LoginScreenController;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
@@ -320,8 +321,18 @@ public class DBController{
             appointment.setType(rs.getString(8));
             appointment.setUrl(rs.getString(9));
 
-            ZonedDateTime startZDT = ZonedDateTime.ofInstant(rs.getTimestamp(10).toInstant(), ZoneId.of(TimeZone.getDefault().getID()));
-            ZonedDateTime endZDT = ZonedDateTime.ofInstant(rs.getTimestamp(11).toInstant(), ZoneId.of(TimeZone.getDefault().getID()));
+            Timestamp startTS = rs.getTimestamp(10);
+            LocalDateTime startLDT = startTS.toLocalDateTime();
+            ZonedDateTime startUTC = startLDT.atZone(ZoneId.of("UTC"));
+            ZonedDateTime startZDT = startUTC.withZoneSameInstant(ZoneId.systemDefault());
+
+            Timestamp endTS = rs.getTimestamp(11);
+            LocalDateTime endLDT = endTS.toLocalDateTime();
+            ZonedDateTime endUTC = endLDT.atZone(ZoneId.of("UTC"));
+            ZonedDateTime endZDT = endUTC.withZoneSameInstant(ZoneId.systemDefault());
+
+            //ZonedDateTime startZDT = ZonedDateTime.ofInstant(rs.getTimestamp(10).toInstant(), ZoneId.of(TimeZone.getDefault().getID()));
+            //ZonedDateTime endZDT = ZonedDateTime.ofInstant(rs.getTimestamp(11).toInstant(), ZoneId.of(TimeZone.getDefault().getID()));
 
             appointment.setStart(startZDT);
             appointment.setEnd(endZDT);

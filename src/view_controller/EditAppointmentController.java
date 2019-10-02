@@ -2,21 +2,17 @@ package view_controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import static java.time.DayOfWeek.SATURDAY;
@@ -34,11 +30,12 @@ public class EditAppointmentController implements Initializable {
     @FXML private TextField input_type;
     @FXML private TextField input_url;
     @FXML private DatePicker datepicker_date;
-    @FXML private ChoiceBox dropdown_time_from;
-    @FXML private ChoiceBox dropdown_time_to;
+    @FXML private ChoiceBox<String> dropdown_time_from;
+    @FXML private ChoiceBox<String> dropdown_time_to;
 
     public void initialize(URL url, ResourceBundle rb) {
         Appointment appointment = ViewAppointmentController.getAppointmentToModify();
+
         input_title.setText(appointment.getTitle());
         input_description.setText(appointment.getDescription());
         input_location.setText(appointment.getLocation());
@@ -55,9 +52,21 @@ public class EditAppointmentController implements Initializable {
             setDisable(empty || date.compareTo(today) < 0 || dayOfWeek == SATURDAY || dayOfWeek == SUNDAY);
             }
         });
-        //datepicker_date.setValue();
-        //dropdown_time_from.set;
-        //dropdown_time_to;
+
+        // set the datepicker value
+        LocalDate date = appointment.getStart().toLocalDate();
+        datepicker_date.setValue(date);
+
+        // set the times
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("h:mm a");
+
+        String start = appointment.getStart().format(formatTime);
+        dropdown_time_from.setValue(start);
+
+        String end = appointment.getEnd().format(formatTime);
+        dropdown_time_to.setValue(end);
+
+        // UP NEXT - populate customer table and select the current customer
     }
 
     @FXML
