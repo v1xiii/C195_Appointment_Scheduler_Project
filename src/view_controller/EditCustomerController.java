@@ -39,7 +39,6 @@ public class EditCustomerController implements Initializable {
 
     public void initialize(URL url, ResourceBundle rb) {
         // populate customers table
-        ObservableList <Customer> allCustomersList = FXCollections.observableArrayList();
         table_customer_id.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
         table_customer_name.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
         table_customers.refresh();
@@ -98,7 +97,7 @@ public class EditCustomerController implements Initializable {
 
         DBController.updateCustomer(customer);
 
-        //Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        //stage.close();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
     }
 }

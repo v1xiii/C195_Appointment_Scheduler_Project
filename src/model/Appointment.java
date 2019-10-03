@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class Appointment {
+    private Integer appointmentId;
     private Integer customerId;
     private Integer userId;
     private String title;
@@ -16,6 +17,10 @@ public class Appointment {
     private ZonedDateTime end;
 
     public Appointment() {
+    }
+
+    public void setAppointmentId(Integer appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
     public void setCustomerId(Integer customerId) {
@@ -56,6 +61,10 @@ public class Appointment {
 
     public void setEnd(ZonedDateTime end) {
         this.end = end;
+    }
+
+    public Integer getAppointmentId() {
+        return appointmentId;
     }
 
     public Integer getCustomerId() {

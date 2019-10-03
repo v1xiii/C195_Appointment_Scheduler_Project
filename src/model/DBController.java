@@ -1,6 +1,5 @@
 package model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import view_controller.LoginScreenController;
@@ -8,10 +7,6 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.TimeZone;
-
-import static java.lang.Boolean.TRUE;
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class DBController{
 
@@ -26,7 +21,6 @@ public class DBController{
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE userName = ? AND password = ?");
         ps.setString(1, username);
         ps.setString(2, password);
-        Statement stmt = conn.createStatement();
         ResultSet rs = ps.executeQuery();
 
         Integer retrievedUserId = null;
@@ -72,7 +66,6 @@ public class DBController{
         ps.setInt(2, addressID);
         ps.setString(3, LoginScreenController.getCurrUser());
         ps.setString(4, LoginScreenController.getCurrUser());
-        Statement stmt = conn.createStatement();
         ps.executeUpdate();
     }
 
@@ -82,7 +75,6 @@ public class DBController{
         Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         PreparedStatement ps = conn.prepareStatement("SELECT countryId FROM country WHERE country = ?");
         ps.setString(1, country);
-        Statement stmt = conn.createStatement();
         ResultSet currID = ps.executeQuery();
 
         if (currID.next()){ // if there is already a matching country
@@ -95,7 +87,6 @@ public class DBController{
             ps2.setString(1, country);
             ps2.setString(2, LoginScreenController.getCurrUser());
             ps2.setString(3, LoginScreenController.getCurrUser());
-            Statement stmt2 = conn.createStatement();
             ps2.executeUpdate();
             ResultSet nextID = ps2.getGeneratedKeys(); // get the autoincrement value that was generated during the last query
 
@@ -114,7 +105,6 @@ public class DBController{
         PreparedStatement ps = conn.prepareStatement("SELECT cityId FROM city WHERE city = ? AND countryId = ?");
         ps.setString(1, city);
         ps.setInt(2, countryID);
-        Statement stmt = conn.createStatement();
         ResultSet currID = ps.executeQuery();
 
         if (currID.next()){ // if there is already a matching city
@@ -128,7 +118,6 @@ public class DBController{
             ps2.setInt(2, countryID);
             ps2.setString(3, LoginScreenController.getCurrUser());
             ps2.setString(4, LoginScreenController.getCurrUser());
-            Statement stmt2 = conn.createStatement();
             ps2.executeUpdate();
             ResultSet nextID = ps2.getGeneratedKeys(); // get the autoincrement value that was generated during the last query
 
@@ -150,7 +139,6 @@ public class DBController{
         ps.setInt(3, cityID);
         ps.setString(4, postalCode);
         ps.setString(5, phone);
-        Statement stmt = conn.createStatement();
         ResultSet currID = ps.executeQuery();
 
         if (currID.next()){ // if there is already a matching address
@@ -167,7 +155,6 @@ public class DBController{
             ps2.setString(5, phone);
             ps2.setString(6, LoginScreenController.getCurrUser());
             ps2.setString(7, LoginScreenController.getCurrUser());
-            Statement stmt2 = conn.createStatement();
             ps2.executeUpdate();
             ResultSet nextID = ps2.getGeneratedKeys(); // get the autoincrement value that was generated during the last query
 
@@ -188,9 +175,9 @@ public class DBController{
                 "FROM customer cu " +
                 "LEFT JOIN address a ON cu.addressId = a.addressId " +
                 "LEFT JOIN city ci ON a.cityId = ci.cityId " +
-                "LEFT JOIN country co ON ci.countryId = co.countryId;");
+                "LEFT JOIN country co ON ci.countryId = co.countryId;"
+        );
 
-        Statement stmt = conn.createStatement();
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
@@ -218,13 +205,11 @@ public class DBController{
 
         PreparedStatement ps = conn.prepareStatement("DELETE FROM customer WHERE customerId = ?");
         ps.setInt(1, customer.getCustomerId());
-        Statement stmt = conn.createStatement();
         ps.executeUpdate();
 
         /*
         PreparedStatement ps2 = conn.prepareStatement("DELETE FROM address WHERE addressId = ?");
         ps2.setInt(1, customer.getAddressId());
-        Statement stmt2 = conn.createStatement();
         ps2.executeUpdate();
         */
     }
@@ -253,7 +238,6 @@ public class DBController{
         ps2.setString(5, customer.getPhone());
         ps2.setString(6, LoginScreenController.getCurrUser());
         ps2.setInt(7, customer.getAddressId());
-        Statement stmt2 = conn.createStatement();
         ps2.executeUpdate();
 
         System.out.println("Address table updated");
@@ -263,12 +247,12 @@ public class DBController{
         ps.setString(1, customer.getCustomerName());
         ps.setString(2, LoginScreenController.getCurrUser());
         ps.setInt(3, customer.getCustomerId());
-        Statement stmt = conn.createStatement();
         ps.executeUpdate();
 
         System.out.println("Customer table updated");
         System.out.println("**Customer update complete**");
     }
+
     public static Integer addAppointment(Appointment appointment) throws SQLException {
         Timestamp startTS = Timestamp.valueOf(appointment.getStart().toLocalDateTime());
         Timestamp endTS = Timestamp.valueOf(appointment.getEnd().toLocalDateTime());
@@ -293,7 +277,6 @@ public class DBController{
         ps.setTimestamp(10, endTS);
         ps.setString(11, LoginScreenController.getCurrUser());
         ps.setString(12, LoginScreenController.getCurrUser());
-        Statement stmt = conn.createStatement();
         ps.executeUpdate();
 
         return 1;
@@ -302,16 +285,14 @@ public class DBController{
     public static ObservableList<Appointment> getAppointments() throws SQLException {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
-        ZoneId systemTZ = ZoneId.of(TimeZone.getDefault().getID());
-
         Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM appointment");
 
-        Statement stmt = conn.createStatement();
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
             Appointment appointment = new Appointment();
+            appointment.setAppointmentId(Integer.parseInt(rs.getString(1)));
             appointment.setCustomerId(Integer.parseInt(rs.getString(2)));
             appointment.setUserId(Integer.parseInt(rs.getString(3)));
             appointment.setTitle(rs.getString(4));
@@ -331,9 +312,6 @@ public class DBController{
             ZonedDateTime endUTC = endLDT.atZone(ZoneId.of("UTC"));
             ZonedDateTime endZDT = endUTC.withZoneSameInstant(ZoneId.systemDefault());
 
-            //ZonedDateTime startZDT = ZonedDateTime.ofInstant(rs.getTimestamp(10).toInstant(), ZoneId.of(TimeZone.getDefault().getID()));
-            //ZonedDateTime endZDT = ZonedDateTime.ofInstant(rs.getTimestamp(11).toInstant(), ZoneId.of(TimeZone.getDefault().getID()));
-
             appointment.setStart(startZDT);
             appointment.setEnd(endZDT);
 
@@ -342,5 +320,50 @@ public class DBController{
         rs.close();
 
         return allAppointments;
+    }
+
+    public static int updateAppointment(Appointment appointment) throws SQLException {
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+        Timestamp startTS = Timestamp.valueOf(appointment.getStart().toLocalDateTime());
+        Timestamp endTS = Timestamp.valueOf(appointment.getEnd().toLocalDateTime());
+
+        System.out.println("Update started...");
+
+        PreparedStatement ps = conn.prepareStatement("" +
+                "UPDATE appointment" +
+                "SET " +
+                    "customerId = ?, " +
+                    "UserId = ?, " +
+                    "title = ?, " +
+                    "description = ?, " +
+                    "location = ?, " +
+                    "contact = ?, " +
+                    "type = ?, " +
+                    "url = ?, " +
+                    "start = ?, " +
+                    "end = ?, " +
+                    "lastUpdate = UTC_TIMESTAMP(), " +
+                    "lastUpdateBy = ? " +
+                "WHERE appointmentId = ?"
+        );
+        ps.setInt(1, appointment.getCustomerId());
+        ps.setInt(2, appointment.getUserId());
+        ps.setString(3, appointment.getTitle());
+        ps.setString(4, appointment.getDescription());
+        ps.setString(5, appointment.getLocation());
+        ps.setString(6, appointment.getContact());
+        ps.setString(7, appointment.getType());
+        ps.setString(8, appointment.getUrl());
+        ps.setTimestamp(9, startTS);
+        ps.setTimestamp(10, endTS);
+        ps.setString(11, LoginScreenController.getCurrUser());
+        ps.setInt(12, appointment.getAppointmentId());
+        ps.executeUpdate();
+
+        System.out.println("Appointment table updated");
+        System.out.println("**Appointment update complete**");
+
+        return 1;
     }
 }

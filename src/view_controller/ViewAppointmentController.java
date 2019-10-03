@@ -37,7 +37,6 @@ public class ViewAppointmentController implements Initializable {
     private static Appointment appointmentToModify;
 
     public void initialize(URL url, ResourceBundle rb) {
-
         try {
             this.allAppointments = DBController.getAppointments();
         } catch (SQLException e) {
@@ -78,6 +77,9 @@ public class ViewAppointmentController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root, 700, 550));
         stage.show();
+
+        //Stage thisStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        //thisStage.close();
     }
 
     @FXML
