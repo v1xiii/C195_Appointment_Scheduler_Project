@@ -16,6 +16,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EditCustomerController implements Initializable {
+    public Button button_cancel;
+    public Button button_delete;
+    public Button button_save;
 
     @FXML private TableView<Customer> table_customers;
     @FXML private TableColumn<Customer, Integer> table_customer_id;

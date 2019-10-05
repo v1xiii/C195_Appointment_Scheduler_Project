@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -30,6 +31,8 @@ public class LoginScreenController implements Initializable {
 
     private static String currUser;
     private static Integer currUserId;
+
+    public Button button_login;
 
     @FXML
     private Label label_username, label_password, label_login;

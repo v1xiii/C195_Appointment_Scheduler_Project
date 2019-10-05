@@ -22,6 +22,9 @@ import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
 
 public class EditAppointmentController implements Initializable {
+    public Button button_cancel;
+    public Button button_save;
+
     @FXML private TableView<Customer> table_customers;
     @FXML private TableColumn<Customer, Integer> table_customer_id;
     @FXML private TableColumn<Customer, String> table_customer_name;

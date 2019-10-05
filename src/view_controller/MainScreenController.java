@@ -16,6 +16,10 @@ import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
 
+    public Button button_add_appointment;
+    public Button button_edit_appointment;
+    public Button button_edit_customer;
+
     @FXML private Button button_logout;
     @FXML private Button button_add_customer;
 
