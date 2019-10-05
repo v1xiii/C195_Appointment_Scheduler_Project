@@ -40,7 +40,7 @@
             <GridPane.margin>
                 <Insets right="10.0" top="10.0" />
             </GridPane.margin></Button>
-        <Button fx:id="button_cancel" layoutX="370.0" layoutY="456.0" mnemonicParsing="false" onAction="#cancelButtonHandler" prefWidth="100.0" text="Cancel" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+        <Button fx:id="button_close" layoutX="370.0" layoutY="456.0" mnemonicParsing="false" onAction="#cancelButtonHandler" prefWidth="100.0" text="Close" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
             <GridPane.margin>
                 <Insets left="10.0" />
             </GridPane.margin></Button>

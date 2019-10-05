@@ -366,4 +366,12 @@ public class DBController{
 
         return 1;
     }
+
+    public static void deleteAppointment(Appointment appointment) throws SQLException {
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM appointment WHERE appointmentId = ?");
+        ps.setInt(1, appointment.getAppointmentId());
+        ps.executeUpdate();
+    }
 }

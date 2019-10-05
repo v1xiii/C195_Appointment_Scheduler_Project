@@ -27,6 +27,7 @@ import java.util.TimeZone;
 
 import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
+import static javafx.scene.input.KeyCode.T;
 
 public class EditAppointmentController implements Initializable {
     @FXML private TableView<Customer> table_customers;
@@ -89,7 +90,15 @@ public class EditAppointmentController implements Initializable {
         }
 
         // select the customer for this appointment
-        table_customers.getSelectionModel().select(appointment.getCustomerId());
+        //table_customers.getSelectionModel().select(appointment.getCustomerId());
+        //TableView.TableViewSelectionModel.select(T object);
+
+        for (Customer customer : table_customers.getItems()) {
+            if (table_customer_id.getCellData(customer).equals(appointment.getCustomerId())){
+                table_customers.getSelectionModel().select(customer);
+                break;
+            }
+        }
     }
 
     @FXML
@@ -163,8 +172,7 @@ public class EditAppointmentController implements Initializable {
             stage.show();
             */
 
-            // UP NEXT - delete appointments
-            // check into issue where customers are not being selected and duplicated appointments are being created when editing appointment (might just need to delete all the old records)
+            // UP NEXT
             // Make view appointments update somehow after editing an appointment (maybe do a scene switch to and from instead of new stage?)
 
             Stage thisStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

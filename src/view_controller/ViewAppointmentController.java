@@ -8,19 +8,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.Customer;
 import model.DBController;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ViewAppointmentController implements Initializable {
@@ -83,8 +83,19 @@ public class ViewAppointmentController implements Initializable {
     }
 
     @FXML
-    private void deleteButtonHandler(ActionEvent event) throws IOException {
+    private void deleteButtonHandler (ActionEvent event) throws IOException, SQLException {
+        Appointment appointment = table_appointments.getSelectionModel().getSelectedItem();
 
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Removing appointment");
+        alert.setContentText("Are you sure you want to remove this appointment?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            table_appointments.getItems().remove(appointment);
+            DBController.deleteAppointment(appointment);
+        }
     }
 
     @FXML
