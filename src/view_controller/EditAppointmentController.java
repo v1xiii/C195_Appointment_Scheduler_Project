@@ -2,24 +2,17 @@ package view_controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 import model.DBController;
 
-import javax.swing.text.View;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -27,7 +20,6 @@ import java.util.TimeZone;
 
 import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
-import static javafx.scene.input.KeyCode.T;
 
 public class EditAppointmentController implements Initializable {
     @FXML private TableView<Customer> table_customers;
@@ -80,8 +72,8 @@ public class EditAppointmentController implements Initializable {
         dropdown_time_to.setValue(end);
 
         // populate customers table
-        table_customer_id.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
-        table_customer_name.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
+        table_customer_id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        table_customer_name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         table_customers.refresh();
         try {
             table_customers.setItems(DBController.getCustomers());
@@ -102,13 +94,13 @@ public class EditAppointmentController implements Initializable {
     }
 
     @FXML
-    private void cancelButtonHandler(ActionEvent event) throws IOException {
+    private void cancelButtonHandler(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    private void saveButtonHandler (ActionEvent event) throws IOException {
+    private void saveButtonHandler (ActionEvent event) {
         Customer selectedCustomer = table_customers.getSelectionModel().getSelectedItem();
 
         Integer customerId = selectedCustomer.getCustomerId();
@@ -121,8 +113,8 @@ public class EditAppointmentController implements Initializable {
         String url = input_url.getText();
         LocalDate date = datepicker_date.getValue();
 
-        String startSelection = (String) dropdown_time_from.getSelectionModel().getSelectedItem();
-        String endSelection = (String) dropdown_time_to.getSelectionModel().getSelectedItem();
+        String startSelection = dropdown_time_from.getSelectionModel().getSelectedItem();
+        String endSelection = dropdown_time_to.getSelectionModel().getSelectedItem();
 
         int startHourEnd = startSelection.indexOf(":");
         int endHourEnd = endSelection.indexOf(":");
@@ -157,7 +149,7 @@ public class EditAppointmentController implements Initializable {
 
         int response = 0;
         try {
-            response = DBController.addAppointment(appointment);
+            response = DBController.updateAppointment(appointment);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -173,6 +165,7 @@ public class EditAppointmentController implements Initializable {
             */
 
             // UP NEXT
+            // Test updating an appointment
             // Make view appointments update somehow after editing an appointment (maybe do a scene switch to and from instead of new stage?)
 
             Stage thisStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

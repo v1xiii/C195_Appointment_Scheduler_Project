@@ -1,20 +1,14 @@
 package view_controller;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.Customer;
 import model.DBController;
 
-import javafx.scene.control.TextField;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -34,13 +28,13 @@ public class AddCustomerController implements Initializable {
     }
 
     @FXML
-    private void cancelButtonHandler(ActionEvent event) throws IOException {
+    private void cancelButtonHandler(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    private void saveButtonHandler (ActionEvent event) throws IOException, SQLException {
+    private void saveButtonHandler (ActionEvent event) throws SQLException {
         String customerName = input_name.getText();
         String address1 = input_address1.getText();
         String address2 = input_address2.getText();

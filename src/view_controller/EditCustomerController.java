@@ -1,24 +1,15 @@
 package view_controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Customer;
 import model.DBController;
 
-import javax.swing.*;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -39,8 +30,8 @@ public class EditCustomerController implements Initializable {
 
     public void initialize(URL url, ResourceBundle rb) {
         // populate customers table
-        table_customer_id.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
-        table_customer_name.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
+        table_customer_id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        table_customer_name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         table_customers.refresh();
         try {
             table_customers.setItems(DBController.getCustomers());
@@ -50,13 +41,13 @@ public class EditCustomerController implements Initializable {
     }
 
     @FXML
-    private void cancelButtonHandler (ActionEvent event) throws IOException {
+    private void cancelButtonHandler (ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    private void tableClickHandler (MouseEvent event){ // fills the text fields for the selected customer
+    private void tableClickHandler(){ // fills the text fields for the selected customer
         Customer selectedCustomer = table_customers.getSelectionModel().getSelectedItem();
         input_name.setText(selectedCustomer.getCustomerName());
         input_address1.setText(selectedCustomer.getAddress1());
@@ -68,7 +59,7 @@ public class EditCustomerController implements Initializable {
     }
 
     @FXML
-    private void deleteButtonHandler (ActionEvent event) throws IOException, SQLException {
+    private void deleteButtonHandler() throws SQLException {
         Customer customer = table_customers.getSelectionModel().getSelectedItem();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -84,7 +75,7 @@ public class EditCustomerController implements Initializable {
     }
 
     @FXML
-    private void saveButtonHandler (ActionEvent event) throws IOException, SQLException {
+    private void saveButtonHandler (ActionEvent event) throws SQLException {
         Customer customer = table_customers.getSelectionModel().getSelectedItem();
 
         customer.setCustomerName(input_name.getText());

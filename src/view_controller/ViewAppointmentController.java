@@ -13,7 +13,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Appointment;
-import model.Customer;
 import model.DBController;
 
 import java.io.IOException;
@@ -62,13 +61,13 @@ public class ViewAppointmentController implements Initializable {
     }
 
     @FXML
-    private void cancelButtonHandler(ActionEvent event) throws IOException {
+    private void cancelButtonHandler(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    private void editButtonHandler(ActionEvent event) throws IOException {
+    private void editButtonHandler() throws IOException {
         setAppointmentToModify(table_appointments.getSelectionModel().getSelectedItem());
 
         Parent root = FXMLLoader.load(getClass().getResource("EditAppointment.fxml"));
@@ -83,7 +82,7 @@ public class ViewAppointmentController implements Initializable {
     }
 
     @FXML
-    private void deleteButtonHandler (ActionEvent event) throws IOException, SQLException {
+    private void deleteButtonHandler() throws SQLException {
         Appointment appointment = table_appointments.getSelectionModel().getSelectedItem();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -99,9 +98,9 @@ public class ViewAppointmentController implements Initializable {
     }
 
     @FXML
-    private void filterChoiceHandler(ActionEvent event) throws IOException {
-        ZonedDateTime minDate = null;
-        ZonedDateTime maxDate = null;
+    private void filterChoiceHandler() {
+        ZonedDateTime minDate;
+        ZonedDateTime maxDate;
         ZonedDateTime now = ZonedDateTime.now();
         ObservableList<Appointment> appointments = null;
 

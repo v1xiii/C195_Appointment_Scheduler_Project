@@ -6,9 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 public class Main extends Application {
 
     @Override
@@ -23,7 +20,3 @@ public class Main extends Application {
         launch(args);
     }
 }
-
-/*TODO
-Lambdas for alerts/buttons -- these seem to be pointless for opening windows, maybe try them for alerts or observableList stuff later
- */

@@ -1,6 +1,5 @@
 package view_controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,7 +35,7 @@ public class MainScreenController implements Initializable {
 
         button_add_customer.setOnAction(event -> { // lambdas continue to be pointless, the button/function worked fine without this entire block of code previously. All it does it remove the onAction in the FXML
             try {
-                addCustomerButtonHandler(event);
+                addCustomerButtonHandler();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -56,7 +55,7 @@ public class MainScreenController implements Initializable {
     */
 
     @FXML
-    private void addCustomerButtonHandler(ActionEvent event) throws IOException {
+    private void addCustomerButtonHandler() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("AddCustomer.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Add Customer");
@@ -66,7 +65,7 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    private void editCustomerButtonHandler(ActionEvent event) throws IOException {
+    private void editCustomerButtonHandler() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("EditCustomer.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Edit Customer");
@@ -76,7 +75,7 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    private void addAppointmentButtonHandler(ActionEvent event) throws IOException {
+    private void addAppointmentButtonHandler() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("AddAppointment.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Add Appointment");
@@ -86,7 +85,7 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    private void viewAppointmentButtonHandler(ActionEvent event) throws IOException {
+    private void viewAppointmentButtonHandler() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("ViewAppointment.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Appointments");

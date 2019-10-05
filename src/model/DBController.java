@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 
 public class DBController{
 
-    private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
+    //private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
     private static final String DB_NAME = "U05oua";
     private static final String DB_URL = "jdbc:mysql://52.206.157.109/" + DB_NAME;
     private static final String DB_USER = "U05oua";

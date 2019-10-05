@@ -1,35 +1,25 @@
 package view_controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 import model.DBController;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
-import static java.time.LocalTime.of;
 
 public class AddAppointmentController implements Initializable {
 
@@ -70,13 +60,13 @@ public class AddAppointmentController implements Initializable {
     }
 
     @FXML
-    private void cancelButtonHandler(ActionEvent event) throws IOException {
+    private void cancelButtonHandler(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    private void saveButtonHandler (ActionEvent event) throws IOException {
+    private void saveButtonHandler (ActionEvent event) {
         Customer selectedCustomer = table_customers.getSelectionModel().getSelectedItem();
 
         Integer customerId = selectedCustomer.getCustomerId();
