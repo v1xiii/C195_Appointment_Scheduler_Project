@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.DBController;
@@ -71,14 +70,23 @@ public class ViewAppointmentController implements Initializable {
     }
 
     @FXML
-    private void editButtonHandler() throws IOException {
+    private void editButtonHandler(ActionEvent event) throws IOException {
         setAppointmentToModify(table_appointments.getSelectionModel().getSelectedItem());
 
+        /*
         Parent root = FXMLLoader.load(getClass().getResource("EditAppointment.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Edit Appointment");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root, 700, 550));
+        stage.show();
+         */
+
+        Parent root = FXMLLoader.load(getClass().getResource("EditAppointment.fxml"));
+        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Edit Appointment");
+        stage.setScene(new Scene(root, 700, 550));
+        stage.centerOnScreen();
         stage.show();
 
         //Stage thisStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

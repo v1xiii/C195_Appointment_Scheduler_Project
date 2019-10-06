@@ -2,8 +2,11 @@ package view_controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -11,6 +14,7 @@ import model.Appointment;
 import model.Customer;
 import model.DBController;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.*;
@@ -85,9 +89,6 @@ public class EditAppointmentController implements Initializable {
         }
 
         // select the customer for this appointment
-        //table_customers.getSelectionModel().select(appointment.getCustomerId());
-        //TableView.TableViewSelectionModel.select(T object);
-
         for (Customer customer : table_customers.getItems()) {
             if (table_customer_id.getCellData(customer).equals(appointment.getCustomerId())){
                 table_customers.getSelectionModel().select(customer);
@@ -103,7 +104,7 @@ public class EditAppointmentController implements Initializable {
     }
 
     @FXML
-    private void saveButtonHandler (ActionEvent event) {
+    private void saveButtonHandler (ActionEvent event) throws IOException {
         Customer selectedCustomer = table_customers.getSelectionModel().getSelectedItem();
 
         Integer customerId = selectedCustomer.getCustomerId();
@@ -158,21 +159,12 @@ public class EditAppointmentController implements Initializable {
         }
 
         if (response == 1){
-            /*
             Parent root = FXMLLoader.load(getClass().getResource("ViewAppointment.fxml"));
-            Stage stage = new Stage();
+            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
             stage.setTitle("Appointments");
-            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(root, 700, 550));
+            stage.centerOnScreen();
             stage.show();
-            */
-
-            // UP NEXT
-            // Test updating an appointment
-            // Make view appointments update somehow after editing an appointment (maybe do a scene switch to and from instead of new stage?)
-
-            Stage thisStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            thisStage.close();
         }
     }
 }
