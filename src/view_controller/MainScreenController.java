@@ -97,4 +97,14 @@ public class MainScreenController implements Initializable {
         stage.setScene(new Scene(root, 700, 550));
         stage.show();
     }
+
+    @FXML
+    private void reportAppointmentTypesButtonHandler() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("ReportAppointmentTypes.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Appointments By Type");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root, 550, 700));
+        stage.show();
+    }
 }

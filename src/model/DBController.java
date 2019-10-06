@@ -355,4 +355,26 @@ public class DBController{
         ps.setInt(1, appointment.getAppointmentId());
         ps.executeUpdate();
     }
+
+    public static ObservableList<ReportItem> getAppointmentsByType() throws SQLException {
+        ObservableList<ReportItem> allAppointments = FXCollections.observableArrayList();
+
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        PreparedStatement ps = conn.prepareStatement("SELECT MONTHNAME(start) AS 'month', type, COUNT(*) AS 'quantity' FROM appointment GROUP BY type, MONTH(start)");
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            ReportItem item = new ReportItem();
+
+            item.setMonth(rs.getString(1));
+            item.setType(rs.getString(2));
+            item.setQuantity(Integer.parseInt(rs.getString(3)));
+
+            allAppointments.add(item);
+        }
+        rs.close();
+
+        return allAppointments;
+    }
 }

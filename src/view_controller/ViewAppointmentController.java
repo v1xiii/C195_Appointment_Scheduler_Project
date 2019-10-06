@@ -23,10 +23,9 @@ import java.util.ResourceBundle;
 
 public class ViewAppointmentController implements Initializable {
 
-    public Button button_delete;
-    public Button button_close;
-    public Button button_view;
-
+    @FXML private Button button_delete;
+    @FXML private Button button_close;
+    @FXML private Button button_view;
     @FXML private TableView<Appointment> table_appointments;
     @FXML private TableColumn<Appointment, Integer> col_customer_id;
     @FXML private TableColumn<Appointment, String> col_title;
@@ -73,24 +72,12 @@ public class ViewAppointmentController implements Initializable {
     private void editButtonHandler(ActionEvent event) throws IOException {
         setAppointmentToModify(table_appointments.getSelectionModel().getSelectedItem());
 
-        /*
-        Parent root = FXMLLoader.load(getClass().getResource("EditAppointment.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Edit Appointment");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(new Scene(root, 700, 550));
-        stage.show();
-         */
-
         Parent root = FXMLLoader.load(getClass().getResource("EditAppointment.fxml"));
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Edit Appointment");
         stage.setScene(new Scene(root, 700, 550));
         stage.centerOnScreen();
         stage.show();
-
-        //Stage thisStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        //thisStage.close();
     }
 
     @FXML

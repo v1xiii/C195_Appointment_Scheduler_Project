@@ -5,15 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 import model.DBController;
 
-import java.awt.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.*;

@@ -113,7 +113,7 @@ public class EditAppointmentController implements Initializable {
         String description = input_description.getText();
         String location = input_location.getText();
         String contact = input_contact.getText();
-        String type = dropdown_type.getValue().toString();
+        String type = dropdown_type.getValue();
         String url = input_url.getText();
         LocalDate date = datepicker_date.getValue();
 
