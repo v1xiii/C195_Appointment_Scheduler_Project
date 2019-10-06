@@ -5,12 +5,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 import model.DBController;
 
+import java.awt.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.*;
@@ -34,7 +37,7 @@ public class AddAppointmentController implements Initializable {
     @FXML private TextField input_description;
     @FXML private TextField input_location;
     @FXML private TextField input_contact;
-    @FXML private TextField input_type;
+    @FXML private ChoiceBox dropdown_type;
     @FXML private TextField input_url;
     @FXML private DatePicker datepicker_date;
     @FXML private ChoiceBox dropdown_time_from;
@@ -78,7 +81,7 @@ public class AddAppointmentController implements Initializable {
         String description = input_description.getText();
         String location = input_location.getText();
         String contact = input_contact.getText();
-        String type = input_type.getText();
+        String type = dropdown_type.getValue().toString();
         String url = input_url.getText();
         LocalDate date = datepicker_date.getValue();
 

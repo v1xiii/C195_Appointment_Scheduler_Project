@@ -37,7 +37,7 @@ public class EditAppointmentController implements Initializable {
     @FXML private TextField input_description;
     @FXML private TextField input_location;
     @FXML private TextField input_contact;
-    @FXML private TextField input_type;
+    @FXML private ChoiceBox<String> dropdown_type;
     @FXML private TextField input_url;
     @FXML private DatePicker datepicker_date;
     @FXML private ChoiceBox<String> dropdown_time_from;
@@ -52,7 +52,7 @@ public class EditAppointmentController implements Initializable {
         input_description.setText(appointment.getDescription());
         input_location.setText(appointment.getLocation());
         input_contact.setText(appointment.getContact());
-        input_type.setText(appointment.getType());
+        dropdown_type.setValue(appointment.getType());
         input_url.setText(appointment.getUrl());
 
         // disable dates in datepicker prior to today and also weekends
@@ -113,7 +113,7 @@ public class EditAppointmentController implements Initializable {
         String description = input_description.getText();
         String location = input_location.getText();
         String contact = input_contact.getText();
-        String type = input_type.getText();
+        String type = dropdown_type.getValue().toString();
         String url = input_url.getText();
         LocalDate date = datepicker_date.getValue();
 
