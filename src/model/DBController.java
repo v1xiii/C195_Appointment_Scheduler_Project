@@ -328,25 +328,7 @@ public class DBController{
         Timestamp startTS = Timestamp.valueOf(appointment.getStart().toLocalDateTime());
         Timestamp endTS = Timestamp.valueOf(appointment.getEnd().toLocalDateTime());
 
-        System.out.println("Update started...");
-
-        PreparedStatement ps = conn.prepareStatement("" +
-                "UPDATE appointment" +
-                "SET " +
-                    "customerId = ?, " +
-                    "UserId = ?, " +
-                    "title = ?, " +
-                    "description = ?, " +
-                    "location = ?, " +
-                    "contact = ?, " +
-                    "type = ?, " +
-                    "url = ?, " +
-                    "start = ?, " +
-                    "end = ?, " +
-                    "lastUpdate = UTC_TIMESTAMP(), " +
-                    "lastUpdateBy = ? " +
-                "WHERE appointmentId = ?"
-        );
+        PreparedStatement ps = conn.prepareStatement("UPDATE appointment SET customerId = ?, UserId = ?, title = ?, description = ?, location = ?, contact = ?, type = ?, url = ?, start = ?, end = ?, lastUpdate = UTC_TIMESTAMP(), lastUpdateBy = ? WHERE appointmentId = ?");
         ps.setInt(1, appointment.getCustomerId());
         ps.setInt(2, appointment.getUserId());
         ps.setString(3, appointment.getTitle());
@@ -361,7 +343,6 @@ public class DBController{
         ps.setInt(12, appointment.getAppointmentId());
         ps.executeUpdate();
 
-        System.out.println("Appointment table updated");
         System.out.println("**Appointment update complete**");
 
         return 1;
