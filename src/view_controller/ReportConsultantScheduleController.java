@@ -17,28 +17,30 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ReportAppointmentTypesController implements Initializable {
+public class ReportConsultantScheduleController implements Initializable {
     @FXML private TableView<ReportItem> table_appointments;
-    @FXML private TableColumn<ReportItem, String> col_month;
+    @FXML private TableColumn<ReportItem, String> col_consultant;
+    @FXML private TableColumn<ReportItem, String> col_customer;
     @FXML private TableColumn<ReportItem, String> col_type;
-    @FXML private TableColumn<ReportItem, String> col_quantity;
+    @FXML private TableColumn<ReportItem, String> col_dateTime;
     public Button button_close;
 
-    private ObservableList<ReportItem> appointmentsByType;
+    private ObservableList<ReportItem> consultantSchedules;
 
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            this.appointmentsByType = DBController.getAppointmentsByType();
+            this.consultantSchedules = DBController.getConsultantSchedules();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         // populate appointments table
-        col_month.setCellValueFactory(new PropertyValueFactory<>("month"));
+        col_consultant.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        col_customer.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
-        col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        col_dateTime.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
         table_appointments.refresh();
-        table_appointments.setItems(appointmentsByType);
+        table_appointments.setItems(consultantSchedules);
     }
 
     @FXML

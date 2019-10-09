@@ -350,7 +350,6 @@ public class DBController{
 
     public static void deleteAppointment(Appointment appointment) throws SQLException {
         Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-
         PreparedStatement ps = conn.prepareStatement("DELETE FROM appointment WHERE appointmentId = ?");
         ps.setInt(1, appointment.getAppointmentId());
         ps.executeUpdate();
@@ -376,5 +375,34 @@ public class DBController{
         rs.close();
 
         return allAppointments;
+    }
+
+    public static ObservableList<ReportItem> getConsultantSchedules() throws SQLException {
+        ObservableList<ReportItem> consultantSchedules = FXCollections.observableArrayList();
+
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        PreparedStatement ps = conn.prepareStatement("SELECT user.userName AS 'consultant', customer.customerName AS 'customer', appointment.type, appointment.start FROM customer JOIN appointment ON customer.customerId = appointment.customerId JOIN user ON appointment.userId = user.userId ORDER BY user.userId, appointment.start");
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            ReportItem item = new ReportItem();
+
+            item.setUserName(rs.getString(1));
+            item.setCustomerName(rs.getString(2));
+            item.setType(rs.getString(3));
+
+            Timestamp startTS = rs.getTimestamp(4);
+            LocalDateTime startLDT = startTS.toLocalDateTime();
+            ZonedDateTime startUTC = startLDT.atZone(ZoneId.of("UTC"));
+            ZonedDateTime startZDT = startUTC.withZoneSameInstant(ZoneId.systemDefault());
+
+            item.setDateTime(startZDT);
+
+            consultantSchedules.add(item);
+        }
+        rs.close();
+
+        return consultantSchedules;
     }
 }
