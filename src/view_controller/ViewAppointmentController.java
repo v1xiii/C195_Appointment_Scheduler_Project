@@ -23,9 +23,9 @@ import java.util.ResourceBundle;
 
 public class ViewAppointmentController implements Initializable {
 
-    @FXML private Button button_delete;
-    @FXML private Button button_close;
-    @FXML private Button button_view;
+    @FXML public Button button_delete;
+    @FXML public Button button_close;
+    @FXML public Button button_view;
     @FXML private TableView<Appointment> table_appointments;
     @FXML private TableColumn<Appointment, Integer> col_customer_id;
     @FXML private TableColumn<Appointment, String> col_title;

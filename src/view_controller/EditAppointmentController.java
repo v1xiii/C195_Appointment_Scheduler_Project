@@ -98,9 +98,13 @@ public class EditAppointmentController implements Initializable {
     }
 
     @FXML
-    private void cancelButtonHandler(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
+    private void cancelButtonHandler(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("ViewAppointment.fxml"));
+        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Appointments");
+        stage.setScene(new Scene(root, 700, 550));
+        stage.centerOnScreen();
+        stage.show();
     }
 
     @FXML

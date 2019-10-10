@@ -253,40 +253,68 @@ public class DBController{
         System.out.println("**Customer update complete**");
     }
 
+    private static Boolean checkAppointmentOverlap(Timestamp startTS, Timestamp endTS) throws SQLException {
+        ObservableList<Appointment> allAppointments = DBController.getAppointments();
+
+        for(Appointment appointment:allAppointments){
+            Timestamp thisStart = Timestamp.valueOf(appointment.getStart().toLocalDateTime());
+            Timestamp thisEnd = Timestamp.valueOf(appointment.getEnd().toLocalDateTime());
+            System.out.println(startTS + " - " + thisStart);
+            if(endTS.after(thisStart) && endTS.before(thisEnd)){
+                return true;
+            }else if(startTS.after(thisStart) && endTS.before(thisEnd)){
+                return true;
+            }else if(startTS.before(thisEnd) && endTS.after(thisEnd)){
+                return true;
+            }else if(startTS.equals(thisStart)){
+                return true;
+            }else if(endTS.equals(thisEnd)){
+                return true;
+            }
+        }
+        return false;
+    } // TODO - Send zdt instead of timestamp to checkAppointmentOverlap, convert to UTC then to timestamp for comparing
+
     public static Integer addAppointment(Appointment appointment) throws SQLException {
+
         Timestamp startTS = Timestamp.valueOf(appointment.getStart().toLocalDateTime());
         Timestamp endTS = Timestamp.valueOf(appointment.getEnd().toLocalDateTime());
 
-        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-        PreparedStatement ps = conn.prepareStatement("" +
-                "INSERT INTO appointment (" +
+        if (!checkAppointmentOverlap(startTS, endTS)) {
+            System.out.println(checkAppointmentOverlap(startTS, endTS));
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            PreparedStatement ps = conn.prepareStatement("" +
+                    "INSERT INTO appointment (" +
                     "customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy" +
-                ") " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), ?, UTC_TIMESTAMP(), ?)" // wow, there must be a better way to do these prepared statements...
-        );
+                    ") " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), ?, UTC_TIMESTAMP(), ?)" // wow, there must be a better way to do these prepared statements...
+            );
 
-        ps.setInt(1, appointment.getCustomerId());
-        ps.setInt(2, appointment.getUserId());
-        ps.setString(3, appointment.getTitle());
-        ps.setString(4, appointment.getDescription());
-        ps.setString(5, appointment.getLocation());
-        ps.setString(6, appointment.getContact());
-        ps.setString(7, appointment.getType());
-        ps.setString(8, appointment.getUrl());
-        ps.setTimestamp(9, startTS);
-        ps.setTimestamp(10, endTS);
-        ps.setString(11, LoginScreenController.getCurrUser());
-        ps.setString(12, LoginScreenController.getCurrUser());
-        ps.executeUpdate();
+            ps.setInt(1, appointment.getCustomerId());
+            ps.setInt(2, appointment.getUserId());
+            ps.setString(3, appointment.getTitle());
+            ps.setString(4, appointment.getDescription());
+            ps.setString(5, appointment.getLocation());
+            ps.setString(6, appointment.getContact());
+            ps.setString(7, appointment.getType());
+            ps.setString(8, appointment.getUrl());
+            ps.setTimestamp(9, startTS);
+            ps.setTimestamp(10, endTS);
+            ps.setString(11, LoginScreenController.getCurrUser());
+            ps.setString(12, LoginScreenController.getCurrUser());
+            ps.executeUpdate();
 
-        return 1;
+            return 1;
+        }
+
+        return 0;
     }
 
     public static ObservableList<Appointment> getAppointments() throws SQLException {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
         Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-        PreparedStatement ps = conn.prepareStatement("SELECT * FROM appointment");
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM appointment ORDER BY start");
 
         ResultSet rs = ps.executeQuery();
 
