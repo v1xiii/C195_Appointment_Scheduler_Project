@@ -405,4 +405,26 @@ public class DBController{
 
         return consultantSchedules;
     }
+
+    public static ObservableList<ReportItem> getCustomersPerCity() throws SQLException {
+        ObservableList<ReportItem> customersPerCity = FXCollections.observableArrayList();
+
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        PreparedStatement ps = conn.prepareStatement("SELECT ci.city, co.country, COUNT(DISTINCT cu.customerName) AS customerCount FROM country co JOIN city ci ON co.countryId = ci.countryId LEFT JOIN address a ON ci.cityId = a.cityId LEFT JOIN customer cu ON a.addressId = cu.addressId GROUP BY city");
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            ReportItem item = new ReportItem();
+
+            item.setCity(rs.getString(1));
+            item.setCountry(rs.getString(2));
+            item.setQuantity(Integer.parseInt(rs.getString(3)));
+
+            customersPerCity.add(item);
+        }
+        rs.close();
+
+        return customersPerCity;
+    }
 }

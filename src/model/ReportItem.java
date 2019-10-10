@@ -11,6 +11,9 @@ public class ReportItem {
     private String customerName;
     private ZonedDateTime dateTime;
 
+    private String city;
+    private String country;
+
     public ReportItem() {
     }
 
@@ -38,6 +41,14 @@ public class ReportItem {
         this.dateTime = dateTime;
     }
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public String getMonth() {
         return month;
     }
@@ -60,5 +71,13 @@ public class ReportItem {
 
     public ZonedDateTime getDateTime() {
         return dateTime;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
     }
 }

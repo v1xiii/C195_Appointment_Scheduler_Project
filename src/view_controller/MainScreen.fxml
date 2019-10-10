@@ -98,6 +98,6 @@
         </Label>
         <Button mnemonicParsing="false" onAction="#reportAppointmentTypesButtonHandler" prefWidth="200.0" text="Appointment Types" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
         <Button mnemonicParsing="false" onAction="#reportConsultantScheduleButtonHandler" prefWidth="200.0" text="Consultant Schedules" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-        <Button mnemonicParsing="false" prefWidth="200.0" text="Report of My Choosing" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <Button mnemonicParsing="false" onAction="#reportCustomersPerCityButtonHandler" prefWidth="200.0" text="Customers Per City" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
     </GridPane>
 </GridPane>
