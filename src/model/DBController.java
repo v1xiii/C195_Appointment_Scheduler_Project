@@ -37,6 +37,7 @@ public class DBController{
         rs.close();
 
         if (username.equals(retrievedUsername) && password.equals(retrievedPassword)){
+            LoginScreenController.setCurrUser(username);
             return retrievedUserId;
         } else {
             return -1;

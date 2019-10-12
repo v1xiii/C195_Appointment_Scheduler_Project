@@ -50,7 +50,7 @@ public class LoginScreenController implements Initializable {
         //System.out.println(rb.getString("intro"));
     }
 
-    private static void setCurrUser(String userName) {
+    public static void setCurrUser(String userName) {
         currUser = userName;
     }
 
@@ -62,7 +62,7 @@ public class LoginScreenController implements Initializable {
         return currUser;
     }
 
-    public static Integer getCurrUserId(){
+    static Integer getCurrUserId(){
         return currUserId;
     }
 
@@ -77,7 +77,6 @@ public class LoginScreenController implements Initializable {
                 throw new IllegalArgumentException();
             } else {
                 setCurrUserId(checkLogin(username, password));
-
             }
         } catch (IllegalArgumentException iae){
             Alert emptyFields = new Alert(Alert.AlertType.WARNING);
@@ -87,7 +86,7 @@ public class LoginScreenController implements Initializable {
             emptyFields.showAndWait();
         }
 
-        if (getCurrUserId() > -1){
+        if (currUserId > -1){
             Path path = Paths.get("logins.txt");
             Files.write(path, Collections.singletonList("User:" + currUser + " -- Login Time: " + Date.from(Instant.now()).toString() + "."), StandardCharsets.UTF_8, Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
             Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
