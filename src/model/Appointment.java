@@ -1,7 +1,6 @@
 package model;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 public class Appointment {
     private Integer appointmentId;

@@ -11,7 +11,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,7 +22,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.sql.SQLException;
 import java.time.Instant;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import static model.DBController.checkLogin;
 
@@ -65,27 +67,27 @@ public class LoginScreenController implements Initializable {
     }
 
     @FXML
-    private void loginButtonHandler(ActionEvent event) throws IOException, SQLException {
+    private void loginButtonHandler(ActionEvent event) throws IOException, SQLException, IllegalArgumentException {
         String username = input_username.getText();
         String password = input_password.getText();
 
         ResourceBundle rb = ResourceBundle.getBundle("Resources/Login", Locale.getDefault());
-        /*
-        if (username.equals("") || password.equals("")) {
+        try {
+            if (username.equals("") || password.equals("")) {
+                throw new IllegalArgumentException();
+            } else {
+                setCurrUserId(checkLogin(username, password));
+
+            }
+        } catch (IllegalArgumentException iae){
             Alert emptyFields = new Alert(Alert.AlertType.WARNING);
             emptyFields.setTitle(rb.getString("warning"));
             emptyFields.setHeaderText(rb.getString("empty_header"));
             emptyFields.setContentText(rb.getString("empty_content"));
             emptyFields.showAndWait();
-
-        } else {
-            setCurrUserId(checkLogin(username, password)); //This may be broken when re-activated due to setCurrUserId being untested
         }
 
         if (getCurrUserId() > -1){
-        */
-            setCurrUser("test"); // DELETE THIS WHEN UNCOMMENTING LOGIN VERIFICATION
-            setCurrUserId(1); // DELETE THIS WHEN UNCOMMENTING LOGIN VERIFICATION
             Path path = Paths.get("logins.txt");
             Files.write(path, Collections.singletonList("User:" + currUser + " -- Login Time: " + Date.from(Instant.now()).toString() + "."), StandardCharsets.UTF_8, Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
             Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
@@ -94,7 +96,7 @@ public class LoginScreenController implements Initializable {
             stage.setScene(new Scene(root, 550, 700));
             stage.centerOnScreen();
             stage.show();
-        /*
+
         } else {
             Alert emptyFields = new Alert(Alert.AlertType.WARNING);
             emptyFields.setTitle(rb.getString("warning"));
@@ -102,6 +104,5 @@ public class LoginScreenController implements Initializable {
             emptyFields.setContentText(rb.getString("invalid_content"));
             emptyFields.showAndWait();
         }
-         */
     }
 }

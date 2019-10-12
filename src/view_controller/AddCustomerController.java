@@ -4,8 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Customer;
@@ -20,6 +20,8 @@ public class AddCustomerController implements Initializable {
 
     public Button button_cancel;
     public TextField input_id;
+    public Button button_save;
+    public Label label_login;
 
     @FXML private TextField input_name;
     @FXML private TextField input_address1;

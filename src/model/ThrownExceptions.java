@@ -10,6 +10,6 @@ public class ThrownExceptions {
             emptyFields.setHeaderText("Required information missing");
             emptyFields.setContentText(error);
             emptyFields.showAndWait();
-        };
+        }
     }
 }
