@@ -24,7 +24,7 @@ public class MainScreenController implements Initializable {
     @FXML private Button button_add_customer;
 
     public void initialize(URL url, ResourceBundle rb) {
-        button_logout.setOnAction(event -> { // wow, this is seems to be a horrible way to use lambdas, takes up more lines than it did before
+        button_logout.setOnAction(event -> { // this lambda is an alternative to specifying a function that runs on button click in FXML. Seems to not be very useful in a program that is using FXML, but this looks like it could be useful for applying to many buttons that do similar things
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("LoginScreen.fxml"));
                 Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
@@ -37,7 +37,7 @@ public class MainScreenController implements Initializable {
             }
         });
 
-        button_add_customer.setOnAction(event -> { // lambdas continue to be pointless, the button/function worked fine without this entire block of code previously. All it does it remove the onAction in the FXML
+        button_add_customer.setOnAction(event -> {
             try {
                 addCustomerButtonHandler();
             } catch (IOException e) {

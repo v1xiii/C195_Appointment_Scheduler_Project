@@ -55,7 +55,7 @@ public class EditAppointmentController implements Initializable {
         dropdown_type.setValue(appointment.getType());
         input_url.setText(appointment.getUrl());
 
-        // disable dates in datepicker prior to today and also weekends
+        // this lambda goes through all the dates on the datepicker and disables dates prior to today and also weekends
         datepicker_date.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
             super.updateItem(date, empty);

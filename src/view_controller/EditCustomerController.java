@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
 import model.DBController;
+import model.ThrownExceptions;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -78,18 +79,33 @@ public class EditCustomerController implements Initializable {
     }
 
     @FXML
-    private void saveButtonHandler (ActionEvent event) throws SQLException {
+    private void saveButtonHandler (ActionEvent event) throws SQLException, ThrownExceptions.InvalidFieldsException {
         Customer customer = table_customers.getSelectionModel().getSelectedItem();
 
-        customer.setCustomerName(input_name.getText());
-        customer.setAddress1(input_address1.getText());
-        customer.setAddress2(input_address2.getText());
-        customer.setCity(input_city.getText());
-        customer.setCountry(input_country.getText());
-        customer.setPostalCode(input_zip.getText());
-        customer.setPhone(input_phone.getText());
+        String customerName = input_name.getText();
+        String address1 = input_address1.getText();
+        String address2 = input_address2.getText();
+        String city = input_city.getText();
+        String country = input_country.getText();
+        String postalCode = input_zip.getText();
+        String phone = input_phone.getText();
 
-        DBController.updateCustomer(customer);
+        String error = Customer.hasValidFields(customerName, address1, city, country, postalCode, phone);
+
+        if (error.length() == 0) {
+            customer.setCustomerName(input_name.getText());
+            customer.setCustomerName(customerName);
+            customer.setAddress1(address1);
+            customer.setAddress2(address2);
+            customer.setCity(city);
+            customer.setCountry(country);
+            customer.setPostalCode(postalCode);
+            customer.setPhone(phone);
+
+            DBController.updateCustomer(customer);
+        } else {
+            throw new ThrownExceptions.InvalidFieldsException(error);
+        }
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();

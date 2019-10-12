@@ -128,6 +128,7 @@ public class ViewAppointmentController implements Initializable {
         ZonedDateTime finalMinDate = minDate;
         ZonedDateTime finalMaxDate = maxDate;
         if (appointments != null) {
+            // this lambda is a very concise way to check the whole list of appointments and remove any that match the condition
             appointments.removeIf(appointment -> appointment.getStart().isBefore(finalMinDate) || appointment.getStart().isAfter(finalMaxDate));
         }
 

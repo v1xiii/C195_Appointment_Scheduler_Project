@@ -4,11 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Customer;
 import model.DBController;
+import model.ThrownExceptions;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,9 +29,7 @@ public class AddCustomerController implements Initializable {
     @FXML private TextField input_zip;
     @FXML private TextField input_phone;
 
-    public void initialize(URL url, ResourceBundle rb) {
-
-    }
+    public void initialize(URL url, ResourceBundle rb) {}
 
     @FXML
     private void cancelButtonHandler(ActionEvent event) {
@@ -38,7 +38,7 @@ public class AddCustomerController implements Initializable {
     }
 
     @FXML
-    private void saveButtonHandler (ActionEvent event) throws SQLException {
+    private void saveButtonHandler (ActionEvent event) throws SQLException, ThrownExceptions.InvalidFieldsException {
         String customerName = input_name.getText();
         String address1 = input_address1.getText();
         String address2 = input_address2.getText();
@@ -47,17 +47,23 @@ public class AddCustomerController implements Initializable {
         String postalCode = input_zip.getText();
         String phone = input_phone.getText();
 
-        Customer customer = new Customer();
-        customer.setCustomerName(customerName);
-        customer.setAddress1(address1);
-        customer.setAddress2(address2);
-        customer.setCity(city);
-        customer.setCountry(country);
-        customer.setPostalCode(postalCode);
-        customer.setPhone(phone);
-        customer.setActive(true);
+        String error = Customer.hasValidFields(customerName, address1, city, country, postalCode, phone);
 
-        DBController.addCustomer(customer);
+        if (error.length() == 0) {
+            Customer customer = new Customer();
+            customer.setCustomerName(customerName);
+            customer.setAddress1(address1);
+            customer.setAddress2(address2);
+            customer.setCity(city);
+            customer.setCountry(country);
+            customer.setPostalCode(postalCode);
+            customer.setPhone(phone);
+            customer.setActive(true);
+
+            DBController.addCustomer(customer);
+        } else {
+            throw new ThrownExceptions.InvalidFieldsException(error);
+        }
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();

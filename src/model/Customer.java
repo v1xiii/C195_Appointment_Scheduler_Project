@@ -94,4 +94,29 @@ public class Customer {
     public Integer getAddressId() {
         return addressId;
     }
+
+    public static String hasValidFields(String customerName, String address1, String city, String country, String postalCode, String phone){
+        String error = "";
+
+        if (customerName.length() == 0) {
+            error = error + "Name is required. \n";
+        }
+        if (address1.length() == 0) {
+            error = error + "Address 1 is required. \n";
+        }
+        if (city.length() == 0) {
+            error = error + "City is required. \n";
+        }
+        if (country.length() == 0) {
+            error = error + "Country is required. \n";
+        }
+        if (postalCode.length() == 0) {
+            error = error + "Postal code is required. \n";
+        }
+        if (phone.length() == 0) {
+            error = error + "Phone number is required. \n";
+        }
+        
+        return error;
+    }
 }
