@@ -481,4 +481,42 @@ public class DBController{
 
         return customersPerCity;
     }
+
+    public static Appointment checkUpcomingAppointments() throws SQLException {
+        Appointment appointment = new Appointment();
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM appointment WHERE userId = ? AND (start BETWEEN NOW() AND (NOW() + INTERVAL 15 MINUTE)) ORDER BY start LIMIT 1");
+        ps.setInt(1, LoginScreenController.getCurrUserId());
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            appointment.setAppointmentId(Integer.parseInt(rs.getString(1)));
+            appointment.setCustomerId(Integer.parseInt(rs.getString(2)));
+            appointment.setUserId(Integer.parseInt(rs.getString(3)));
+            appointment.setTitle(rs.getString(4));
+            appointment.setDescription(rs.getString(5));
+            appointment.setLocation(rs.getString(6));
+            appointment.setContact(rs.getString(7));
+            appointment.setType(rs.getString(8));
+            appointment.setUrl(rs.getString(9));
+
+            Timestamp startTS = rs.getTimestamp(10);
+            LocalDateTime startLDT = startTS.toLocalDateTime();
+            ZonedDateTime startUTC = startLDT.atZone(ZoneId.of("UTC"));
+            ZonedDateTime startZDT = startUTC.withZoneSameInstant(ZoneId.systemDefault());
+
+            Timestamp endTS = rs.getTimestamp(11);
+            LocalDateTime endLDT = endTS.toLocalDateTime();
+            ZonedDateTime endUTC = endLDT.atZone(ZoneId.of("UTC"));
+            ZonedDateTime endZDT = endUTC.withZoneSameInstant(ZoneId.systemDefault());
+
+            appointment.setStart(startZDT);
+            appointment.setEnd(endZDT);
+        }
+
+        rs.close();
+
+        return appointment;
+    }
 }

@@ -62,7 +62,7 @@ public class LoginScreenController implements Initializable {
         return currUser;
     }
 
-    static Integer getCurrUserId(){
+    public static Integer getCurrUserId(){
         return currUserId;
     }
 

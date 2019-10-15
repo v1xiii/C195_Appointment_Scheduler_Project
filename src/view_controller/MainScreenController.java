@@ -6,12 +6,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.Appointment;
+import model.DBController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
@@ -24,6 +29,18 @@ public class MainScreenController implements Initializable {
     @FXML private Button button_add_customer;
 
     public void initialize(URL url, ResourceBundle rb) {
+        /*
+        @FXML
+        private void logoutButtonHandler(ActionEvent event) throws IOException {
+            Parent root = FXMLLoader.load(getClass().getResource("LoginScreen.fxml"));
+            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+            stage.setTitle("Scheduler Login");
+            stage.setScene(new Scene(root, 550, 500));
+            stage.centerOnScreen();
+            stage.show();
+        }
+        */
+
         button_logout.setOnAction(event -> { // this lambda is an alternative to specifying a function that runs on button click in FXML. Seems to not be very useful in a program that is using FXML, but this looks like it could be useful for applying to many buttons that do similar things
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("LoginScreen.fxml"));
@@ -44,19 +61,29 @@ public class MainScreenController implements Initializable {
                 e.printStackTrace();
             }
         });
+
+        Appointment upcomingAppointment = null;
+        try { // check for appointment within the next 15 minutes
+            upcomingAppointment = DBController.checkUpcomingAppointments();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (upcomingAppointment != null){
+            checkUpcomingAppointments(upcomingAppointment);
+        }
     }
 
-    /*
-    @FXML
-    private void logoutButtonHandler(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("LoginScreen.fxml"));
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Scheduler Login");
-        stage.setScene(new Scene(root, 550, 500));
-        stage.centerOnScreen();
-        stage.show();
+    private void checkUpcomingAppointments(Appointment upcomingAppointment){
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("h:mm a");
+        String start = upcomingAppointment.getStart().format(formatTime);
+
+        Alert emptyFields = new Alert(Alert.AlertType.INFORMATION);
+        emptyFields.setTitle("Upcoming Appointment");
+        emptyFields.setHeaderText("Appointment at " + start);
+        emptyFields.setContentText("Type: " + upcomingAppointment.getType() + "\nContact: " + upcomingAppointment.getContact() + "\nLocation: " + upcomingAppointment.getLocation());
+        emptyFields.showAndWait();
     }
-    */
 
     @FXML
     private void addCustomerButtonHandler() throws IOException {
