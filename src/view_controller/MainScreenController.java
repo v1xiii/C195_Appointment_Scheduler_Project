@@ -69,7 +69,8 @@ public class MainScreenController implements Initializable {
             e.printStackTrace();
         }
 
-        if (upcomingAppointment != null){
+        assert upcomingAppointment != null;
+        if (upcomingAppointment.getCustomerId() != null) {
             checkUpcomingAppointments(upcomingAppointment);
         }
     }
