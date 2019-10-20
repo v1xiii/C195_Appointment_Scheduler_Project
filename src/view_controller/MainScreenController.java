@@ -54,7 +54,7 @@ public class MainScreenController implements Initializable {
             }
         });
 
-        button_add_customer.setOnAction(event -> {
+        button_add_customer.setOnAction(event -> { // this lambda simply sets an OnAction event TO a specific function rather than "being" the function
             try {
                 addCustomerButtonHandler();
             } catch (IOException e) {

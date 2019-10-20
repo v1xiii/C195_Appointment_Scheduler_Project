@@ -46,6 +46,7 @@ public class LoginScreenController implements Initializable {
         label_username.setText(rb.getString("username"));
         label_password.setText(rb.getString("password"));
         label_login.setText(rb.getString("log_in"));
+        button_login.setText(rb.getString("log_in"));
         //System.out.println(Locale.getDefault());
         //System.out.println(rb.getString("intro"));
     }
@@ -70,6 +71,8 @@ public class LoginScreenController implements Initializable {
     private void loginButtonHandler(ActionEvent event) throws IOException, SQLException, IllegalArgumentException {
         String username = input_username.getText();
         String password = input_password.getText();
+        Integer emptyThrown = 0;
+        currUserId = -1;
 
         ResourceBundle rb = ResourceBundle.getBundle("Resources/Login", Locale.getDefault());
         try {
@@ -84,6 +87,7 @@ public class LoginScreenController implements Initializable {
             emptyFields.setHeaderText(rb.getString("empty_header"));
             emptyFields.setContentText(rb.getString("empty_content"));
             emptyFields.showAndWait();
+            emptyThrown = 1;
         }
 
         if (currUserId > -1){
@@ -96,7 +100,7 @@ public class LoginScreenController implements Initializable {
             stage.centerOnScreen();
             stage.show();
 
-        } else {
+        } else if (emptyThrown.equals(0)) {
             Alert emptyFields = new Alert(Alert.AlertType.WARNING);
             emptyFields.setTitle(rb.getString("warning"));
             emptyFields.setHeaderText(rb.getString("invalid_header"));
