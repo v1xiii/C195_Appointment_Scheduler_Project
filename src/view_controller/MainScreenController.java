@@ -16,6 +16,7 @@ import model.DBController;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -65,6 +66,8 @@ public class MainScreenController implements Initializable {
         Appointment upcomingAppointment = null;
         try { // check for appointment within the next 15 minutes
             upcomingAppointment = DBController.checkUpcomingAppointments();
+            System.out.println(ZonedDateTime.now());
+            System.out.println(upcomingAppointment.getTitle());
         } catch (SQLException e) {
             e.printStackTrace();
         }
